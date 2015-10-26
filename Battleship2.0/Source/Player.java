@@ -5,6 +5,7 @@ Create On: 9/9/15
 Updated On: 9/17/15
 Contributors:
 ***********************/
+import javax.swing.*;
 
 public class Player
 {
@@ -17,6 +18,7 @@ public class Player
 	public Ship m_Sub;
 	public Ship m_Cruiser;
 	public Ship m_Destoyer;
+	public Board m_Board;
 	
 	Player()
 	{
@@ -28,11 +30,17 @@ public class Player
 		m_Type = type;
 		m_Losses = 0;
 		m_Wins = 0;
+		m_Board = new Board();
 		m_AirCarr = new Ship("AircraftCarrier", 5);
 		m_Battleship = new Ship("Battleship", 4);
 		m_Sub = new Ship("Submarine", 3);
 		m_Cruiser = new Ship("Cruiser", 3);
 		m_Destoyer = new Ship("Destroyer", 2);
+	}
+	
+	public JLabel getBoard()
+	{
+		return m_Board.getBoard();
 	}
 	
 	public String getName()
