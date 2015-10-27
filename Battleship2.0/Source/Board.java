@@ -18,19 +18,22 @@ public class Board
 {	
 	private JLabel  m_GameBoardGrid_L[][], m_GameBoard_L;
 	private int m_ScreenHeight, m_ScreenWidth;
+	private LoadAssets m_Assets;
 	
-	Board()
+	Board(LoadAssets assets)
 	{
+		m_Assets = assets;
+		
 		m_GameBoardGrid_L = new JLabel[21][16];
-		m_GameBoard_L = new JLabel(loadImage("gameBoard"));
+		m_GameBoard_L = new JLabel(m_Assets.getImage("GameBoard"));
+		
+		m_GameBoard_L.setLayout(new GridLayout(21,16,0,0));
 		
 		createBoard();
 		
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();// geting size of screen
 		m_ScreenWidth = gd.getDisplayMode().getWidth();
 		m_ScreenHeight = gd.getDisplayMode().getHeight();
-		
-		m_GameBoard_L.setAlignmentX(Component.CENTER_ALIGNMENT);
 	}
 	
 	public JLabel getBoard()
@@ -43,7 +46,7 @@ public class Board
 		return m_GameBoard_L;// show board with hidden ships, for others to see
 	}
 	private void createBoard()
-	{
+	{	
 		for(int y = 0; y < 21;y++)
 		{
 			for(int x = 0; x < 16; x++)
@@ -52,12 +55,15 @@ public class Board
 				m_GameBoard_L.add(m_GameBoardGrid_L[y][x]);
 			}
 		}
-		m_GameBoard_L.setAlignmentX(Component.CENTER_ALIGNMENT);
 	}
 	
-	private void updateBoard(ImageIcon image, int xx, int yy)
+	public void updateBoard(ImageIcon image, int xx, int yy)
 	{
 		m_GameBoard_L.removeAll();
+		m_GameBoardGrid_L = new JLabel[21][16];
+		m_GameBoard_L = new JLabel(m_Assets.getImage("GameBoard"));
+		m_GameBoard_L.setLayout(new GridLayout(21,16,0,0));
+		
 		for(int y = 0; y < 21;y++)
 		{
 			for(int x = 0; x < 16; x++)
@@ -73,31 +79,32 @@ public class Board
 			}
 		}
 	}
-	
-	private ImageIcon loadImage(String name)
+	public void updateBoard(ImageIcon image, ImageIcon image2, int xx, int yy)
 	{
-		String path = "";
-		path = System.getProperty("user.dir");
-		path = path.replace('\\','/');
-		path = path.replaceAll("Source", "Assets/GUI/GameImages/" + name + ".jpg");
-		Image img;
+		m_GameBoard_L.removeAll();
+		m_GameBoardGrid_L = new JLabel[21][16];
+		m_GameBoard_L = new JLabel(m_Assets.getImage("GameBoard"));
+		m_GameBoard_L.setLayout(new GridLayout(21,16,0,0));
 		
-		try 
+		for(int y = 0; y < 21;y++)
 		{
-			img = ImageIO.read(new File(path));
-			if(name.equals("GameBackground"))
+			for(int x = 0; x < 16; x++)
 			{
-				img = img.getScaledInstance(m_ScreenWidth, m_ScreenHeight,  java.awt.Image.SCALE_SMOOTH);
-			}else
-			{
-				img = img.getScaledInstance(600, 700,  java.awt.Image.SCALE_SMOOTH);
+				if(xx == x && yy == y)
+				{
+					m_GameBoardGrid_L[10][10] = new JLabel(m_Assets.getImage("CruiserXTop"));
+					m_GameBoard_L.add(m_GameBoardGrid_L[10][10]);
+					x++;
+					System.out.println(x + "");
+					m_GameBoardGrid_L[10][11] = new JLabel(m_Assets.getImage("CruiserXBut"));
+					m_GameBoard_L.add(m_GameBoardGrid_L[10][11]);
+				}else
+				{
+					m_GameBoardGrid_L[y][x] = new JLabel("");
+					m_GameBoard_L.add(m_GameBoardGrid_L[y][x]);
+				}
+				
 			}
-			return new ImageIcon(img);
-		
-		} catch (IOException ex) 
-		{
-			System.out.println("FIle Not Found\nFile Path: " + path);System.exit(0);
 		}
-			return null;
 	}
 }

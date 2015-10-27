@@ -21,9 +21,12 @@ public class MenuWindow
 	private int m_ScreenWidth, m_ScreenHeight;
 	private JButton m_PlayGame_B, m_Exit_B, m_Settings_B;
 	private JLabel m_Background_L;
+	private LoadAssets m_Assets;
 	
-    public MenuWindow()// constructer
+    public MenuWindow(LoadAssets assets)// constructer
     {
+		m_Assets = assets;
+		
 		createComponents();
 		
 		buildComponents();
@@ -43,13 +46,13 @@ public class MenuWindow
 		m_ScreenWidth = gd.getDisplayMode().getWidth();
 		m_ScreenHeight = gd.getDisplayMode().getHeight();
 		
-		m_Background_L = new JLabel(loadBackround());
+		m_Background_L = new JLabel(m_Assets.getImage("MenuBG"));
 		
 		m_MenuFrame = new JFrame("Menu");
 		
-		m_PlayGame_B = new JButton(loadButton("PlayGameButton"));
-		m_Settings_B = new JButton(loadButton("SettingsButton"));
-		m_Exit_B = new JButton(loadButton("ExitButton"));
+		m_PlayGame_B = new JButton(m_Assets.getImage("PlayGameButton"));
+		m_Settings_B = new JButton(m_Assets.getImage("SettingsButton"));
+		m_Exit_B = new JButton(m_Assets.getImage("ExitButton"));
 	}
 	/**buildComponents
 	* set up components and there attributes.
@@ -121,7 +124,7 @@ public class MenuWindow
 			String command = event.getActionCommand();
 			switch(command)
 			{
-				case "PlayGame": GameSetUpWindow newGame = new GameSetUpWindow(m_MenuFrame);
+				case "PlayGame": GameSetUpWindow newGame = new GameSetUpWindow(m_MenuFrame, m_Assets);
 					break;
 				case "Exit": m_MenuFrame.dispose(); System.exit(1);
 					break;
@@ -129,48 +132,5 @@ public class MenuWindow
 					break;
 			}
 		}  
-	}
-	
-	/**loadImg
-	* loads image from file.
-	* J.B.
-	**/
-	private Icon loadButton(String name)
-	{
-		String path = "";
-		path = System.getProperty("user.dir");
-		path = path.replace('\\','/');
-		path = path.replaceAll("Source", "Assets/GUI/MenuButtons/" + name + ".png");
-
-		try 
-		{
-		Image img = ImageIO.read(new File(path));
-		return new ImageIcon(img);
-		
-		} catch (IOException ex) 
-		{
-			System.out.println("FIle Not Found\nFile Path: " + path);
-		}
-			return null;
-	}
-	
-	private ImageIcon loadBackround()
-	{
-		String path = "";
-		path = System.getProperty("user.dir");
-		path = path.replace('\\','/');
-		path = path.replaceAll("Source", "Assets/GUI/MenuImages/MenuBG.jpg");
-		
-		try 
-		{
-			Image img = ImageIO.read(new File(path));
-			Image newimg = img.getScaledInstance(m_ScreenWidth, m_ScreenHeight,  java.awt.Image.SCALE_SMOOTH);
-			return new ImageIcon(newimg);
-		
-		} catch (IOException ex) 
-		{
-			System.out.println("FIle Not Found\nFile Path: " + path);
-		}
-			return null;
 	}
 }

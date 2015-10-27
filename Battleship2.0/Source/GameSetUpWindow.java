@@ -22,9 +22,12 @@ public class GameSetUpWindow
 	private JButton m_StartNewGame_B, m_BackToMenu_B, m_LoadAGame_B;
 	private JPanel m_MenuButton_P;
 	private JLabel m_Background_L;
+	private LoadAssets m_Assets;
 	
-    public GameSetUpWindow(JFrame window)// constructer
+    public GameSetUpWindow(JFrame window, LoadAssets assets)// constructer
     {
+		m_Assets = assets;
+		
 		m_MenuFrame = window;
 		
 		createComponents();
@@ -46,15 +49,15 @@ public class GameSetUpWindow
 		m_ScreenWidth = gd.getDisplayMode().getWidth();
 		m_ScreenHeight = gd.getDisplayMode().getHeight();
 		
-		m_Background_L = new JLabel(loadBackround());
+		m_Background_L = new JLabel(m_Assets.getImage("MenuBG"));
 		
 		m_GameSetUpFrame = new JFrame("Game Set Up");
 		
 		m_MenuButton_P = new JPanel();
 		
-		m_StartNewGame_B = new JButton(loadButton("StartANewGameButton"));
-		m_LoadAGame_B = new JButton(loadButton("LoadAGameButton"));
-		m_BackToMenu_B = new JButton(loadButton("BackToMainMenuButton"));
+		m_StartNewGame_B = new JButton(m_Assets.getImage("StartANewGameButton"));
+		m_LoadAGame_B = new JButton(m_Assets.getImage("LoadAGameButton"));
+		m_BackToMenu_B = new JButton(m_Assets.getImage("BackToMainMenuButton"));
 	}
 	/**buildComponents
 	* set up components and there attributes.
@@ -128,56 +131,13 @@ public class GameSetUpWindow
 			String command = event.getActionCommand();
 			switch(command)
 			{
-				case "LoadAGame":LoadGameWindow gameMenu1 = new LoadGameWindow(m_GameSetUpFrame);m_MenuFrame.setVisible(false);
+				case "LoadAGame":LoadGameWindow gameMenu1 = new LoadGameWindow(m_GameSetUpFrame, m_Assets);m_MenuFrame.setVisible(false);
 					break;
 				case "BackToMenu": m_MenuFrame.setVisible(true); m_GameSetUpFrame.dispose();
 					break;
-				case "StartANewGame":StartNewGameWindow gameMenu2 = new StartNewGameWindow(m_GameSetUpFrame);m_MenuFrame.setVisible(false);
+				case "StartANewGame":StartNewGameWindow gameMenu2 = new StartNewGameWindow(m_GameSetUpFrame, m_Assets);m_MenuFrame.setVisible(false);
 					break;
 			}
 		}  
-	}
-	
-	/**loadImg
-	* loads image from file.
-	* J.B.
-	**/
-	private Icon loadButton(String name)
-	{
-		String path = "";
-		path = System.getProperty("user.dir");
-		path = path.replace('\\','/');
-		path = path.replaceAll("Source", "Assets/GUI/MenuButtons/" + name + ".png");
-
-		try 
-		{
-		Image img = ImageIO.read(new File(path));
-		return new ImageIcon(img);
-		
-		} catch (IOException ex) 
-		{
-			System.out.println("FIle Not Found\nFile Path: " + path);
-		}
-			return null;
-	}
-	
-	private ImageIcon loadBackround()
-	{
-		String path = "";
-		path = System.getProperty("user.dir");
-		path = path.replace('\\','/');
-		path = path.replaceAll("Source", "Assets/GUI/MenuImages/MenuBG.jpg");
-		
-		try 
-		{
-			Image img = ImageIO.read(new File(path));
-			Image newimg = img.getScaledInstance(m_ScreenWidth, m_ScreenHeight,  java.awt.Image.SCALE_SMOOTH);
-			return new ImageIcon(newimg);
-		
-		} catch (IOException ex) 
-		{
-			System.out.println("FIle Not Found\nFile Path: " + path);
-		}
-			return null;
 	}
 }

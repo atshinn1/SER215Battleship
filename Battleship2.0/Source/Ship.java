@@ -17,6 +17,7 @@ public class Ship
 	private int m_Length;
 	private int m_Lives;
 	private ImageIcon image;
+	private LoadAssets m_Assets;
 	
 	Ship()
 	{
@@ -24,12 +25,17 @@ public class Ship
 		m_Length = 20;
 		m_Lives = 20;
 	}
-	Ship(String name, int length)
+	Ship(String name, int length, LoadAssets assets)
 	{
+		m_Assets = assets;
 		m_Name = name;
 		m_Length = length;
 		m_Lives = length;
-		image = loadImage();
+		image = m_Assets.getImage(name);
+		if(image == null)
+		{
+			System.out.println(name + " was not found");
+		}
 	}
 	
 	public String getName()
@@ -57,24 +63,5 @@ public class Ship
 	public void reset()
 	{
 		m_Lives = m_Length;
-	}
-	private ImageIcon loadImage()
-	{
-		String path = "";
-		path = System.getProperty("user.dir");
-		path = path.replace('\\','/');
-		path = path.replaceAll("Source", "Assets/ships/" + m_Name + ".png");
-		Image img;
-		
-		try 
-		{
-			img = ImageIO.read(new File(path));
-			img = img.getScaledInstance(27, 27*m_Length,  java.awt.Image.SCALE_SMOOTH);
-		
-		} catch (IOException ex) 
-		{
-			System.out.println("FIle Not Found\nFile Path: " + path);
-		}
-			return null;
 	}
 }

@@ -1,5 +1,5 @@
 /* 
-Name: Menu Panel 
+Name: Set Up Board Window
 Author: Joshua Becker
 Create On: 9/9/15
 Updated On: 9/19/15
@@ -23,10 +23,13 @@ public class SetUpBoardWindow
 	private JComboBox<String> m_NumOfPly_CB, m_AIDiff_CB;
 	private JLabel m_Background_L, m_Instructions_L;
 	private Game m_currentGame;
+	private LoadAssets m_Assets;
 	
-    public SetUpBoardWindow(Game game)// constructer
+    public SetUpBoardWindow(Game game, LoadAssets assets)// constructer
     {
 		m_currentGame = game;
+		
+		m_Assets = assets;
 		
 		createComponents();
 		
@@ -47,8 +50,8 @@ public class SetUpBoardWindow
 		m_ScreenWidth = gd.getDisplayMode().getWidth();
 		m_ScreenHeight = gd.getDisplayMode().getHeight();
 		
-		m_Background_L = new JLabel(loadImage("GameBackground.jpg"));
-		m_Instructions_L = new JLabel(loadImage("Instructions.png"));
+		m_Background_L = new JLabel(m_Assets.getImage("GameBG"));
+		m_Instructions_L = new JLabel(m_Assets.getImage("Instructions"));
 		
 		m_BackToMenu_B = new JButton("BackToMenu");
 		
@@ -57,11 +60,17 @@ public class SetUpBoardWindow
 	/**buildComponents
 	* set up components and there attributes.
 	* J.B.
+	m_AirCarr;
+	m_Battleship;
+	m_Sub;
+	m_Cruiser;
+	m_Destoyer;
 	**/
 	public void buildComponents()
 	{
 		m_SetUpBoard_F.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		m_SetUpBoard_F.add(m_currentGame.getPlayer("Player 1").getBoard());
+		
+		//m_SetUpBoard_F.add(m_currentGame.getPlayer("Player 1").getBoard());
 		
 		m_Background_L.setLayout(new BoxLayout(m_Background_L, BoxLayout.Y_AXIS));
 		m_Instructions_L.setLayout(new BoxLayout(m_Instructions_L, BoxLayout.Y_AXIS));
@@ -69,6 +78,8 @@ public class SetUpBoardWindow
 		m_SetUpBoard_F.setUndecorated(true);
         m_SetUpBoard_F.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
 		m_SetUpBoard_F.setSize(new Dimension(m_ScreenWidth,m_ScreenHeight));
+		
+		
 	}
 	/**addElements
 	* add components to panels and
@@ -87,23 +98,33 @@ public class SetUpBoardWindow
 		//m_Background_L.add(m_BackToMenu_B);
 		setKeyBind();
 		
-		JLabel board = m_currentGame.getPlayer("Player 1").getBoard();
-		JLabel instructions[] = {new JLabel("Use the Arrow Keys to move the ship"), new JLabel("Left Click to change the oriantation"), new JLabel("Press Enter to Place the Ship")};
+		JLabel instructions[] = {new JLabel("Use the Arrow Keys to move the ship"), new JLabel("Press the Space Bar to change the oriantation"), 
+								 new JLabel("Press Enter to Place the Ship"), new JLabel("Press Esc to quit")};
 		instructions[0].setAlignmentX(Component.CENTER_ALIGNMENT);
 		instructions[1].setAlignmentX(Component.CENTER_ALIGNMENT);
 		instructions[2].setAlignmentX(Component.CENTER_ALIGNMENT);
+		instructions[3].setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		instructions[0].setForeground(Color.WHITE);
 		instructions[1].setForeground(Color.WHITE);
 		instructions[2].setForeground(Color.WHITE);
+		instructions[3].setForeground(Color.WHITE);	
+		
+		
+		m_currentGame.getPlayer("Player 1").updateBoard(m_Assets.getImage("CruiserXTop"),m_Assets.getImage("CruiserXBut"), 10, 10);
+		JLabel board = m_currentGame.getPlayer("Player 1").getBoard();
+		
 		
 		
 		m_Instructions_L.add(instructions[0]);
 		m_Instructions_L.add(instructions[1]);
 		m_Instructions_L.add(instructions[2]);
+		m_Instructions_L.add(instructions[3]);
 		
 		board.setAlignmentX(Component.CENTER_ALIGNMENT);
 		m_Instructions_L.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
+		System.out.println(m_currentGame.getPlayer("Player 1").getBoard().getComponentCount() + " board count");
 		
 		m_Background_L.add(board);
 		m_Background_L.add(m_Instructions_L);
@@ -115,6 +136,11 @@ public class SetUpBoardWindow
 		m_SetUpBoard_F.setVisible(true);
 	}
 	
+	private void updateBoard()
+	{
+		m_SetUpBoard_F.removeAll();
+		m_SetUpBoard_F.add(m_currentGame.getPlayer("Player 1").getBoard());
+	}
 	/**addActionListeners
 	* adds ActionListener, which wait till
 	* an action is Performed then sends 
@@ -143,22 +169,28 @@ public class SetUpBoardWindow
 			{
 				case "BackToMenu": m_SetUpBoard_F.dispose();System.exit(1);
 					break;
-				case "StartGame":
-						/*Loading Screen...*/
-				// create default error message
 			}
 		}  
 	}
 	
 	private class KeyAction extends AbstractAction
     {
+		private String m_Command;
+		KeyAction()
+		{
+			
+		}
+		
+		KeyAction(String command)
+		{
+			m_Command = command;
+		}
         public void actionPerformed(ActionEvent event)
         {
-			String command = event.getActionCommand();
-			System.out.println(command);
-            switch(command)
+			System.out.println(m_Command);
+            switch(m_Command)
 			{
-				case "EXIT": System.exit(1);
+				case "EXIT": System.exit(1);// DOUBLE CHECK WHERE TO SEND...
 			}
         }
     }
@@ -178,58 +210,24 @@ public class SetUpBoardWindow
 			}
 		}
 	}
-	/**loadImg
-	* loads image from file.
-	* J.B.
-	**/
-	private Icon loadButton(String name)
-	{
-		String path = "";
-		path = System.getProperty("user.dir");
-		path = path.replace('\\','/');
-		path = path.replaceAll("Source", "Assets/GUI/MenuButtons/" + name + ".png");
-
-		try 
-		{
-		Image img = ImageIO.read(new File(path));
-		return new ImageIcon(img);
-		
-		} catch (IOException ex) 
-		{
-			System.out.println("FIle Not Found\nFile Path: " + path);
-		}
-			return null;
-	}
-	
-	private ImageIcon loadImage(String name)
-	{
-		String path = "";
-		path = System.getProperty("user.dir");
-		path = path.replace('\\','/');
-		path = path.replaceAll("Source", "Assets/GUI/GameImages/" + name);
-		Image img;
-		
-		try 
-		{
-			img = ImageIO.read(new File(path));
-			if(name.equals("GameBackground.jpg"))
-			{
-				img = img.getScaledInstance(m_ScreenWidth, m_ScreenHeight,  java.awt.Image.SCALE_SMOOTH);
-			}else
-			{
-				img = img.getScaledInstance(m_ScreenWidth,300,  java.awt.Image.SCALE_SMOOTH);
-			}
-			return new ImageIcon(img);
-		
-		} catch (IOException ex) 
-		{
-			System.out.println("FIle Not Found\nFile Path: " + path);System.exit(0);
-		}
-			return null;
-	}
 	private void setKeyBind()
 	{
 		m_Background_L.getInputMap().put(KeyStroke.getKeyStroke("ESCAPE"),"EXIT");
-		m_Background_L.getActionMap().put( "EXIT", new KeyAction());
+		m_Background_L.getActionMap().put( "EXIT", new KeyAction("EXIT"));
+		
+		m_Background_L.getInputMap().put(KeyStroke.getKeyStroke("UP"),"UP");
+		m_Background_L.getActionMap().put( "UP", new KeyAction("UP"));
+		
+		m_Background_L.getInputMap().put(KeyStroke.getKeyStroke("DOWN"),"DOWN");
+		m_Background_L.getActionMap().put( "DOWN", new KeyAction("DOWN"));
+		
+		m_Background_L.getInputMap().put(KeyStroke.getKeyStroke("LEFT"),"LEFT");
+		m_Background_L.getActionMap().put( "LEFT", new KeyAction("LEFT"));
+		
+		m_Background_L.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"),"RIGHT");
+		m_Background_L.getActionMap().put( "RIGHT", new KeyAction("RIGHT"));
+		
+		m_Background_L.getInputMap().put(KeyStroke.getKeyStroke("SPACE"),"SPACE");
+		m_Background_L.getActionMap().put( "SPACE", new KeyAction("SPACE"));
 	}
 }

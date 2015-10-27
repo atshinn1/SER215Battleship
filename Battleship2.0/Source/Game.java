@@ -11,13 +11,15 @@ public class Game
 	private Player m_Players[];
 	private int m_difficulty;
 	private int m_NumOfGames;
+	private LoadAssets m_Assets;
 	
 	Game()
 	{
 		
 	}
-	Game(int difficulty, int numOfPlys)
+	Game(int difficulty, int numOfPlys, LoadAssets assets)
 	{
+		m_Assets = assets;
 		m_difficulty = difficulty;
 		m_Players = new Player[numOfPlys+1];
 		m_NumOfGames = 0;
@@ -63,10 +65,10 @@ public class Game
 	}
 	private void fillPlayers()
 	{
-		m_Players[0] = new Player("Player 1", true);
+		m_Players[0] = new Player("Player 1", true, m_Assets);
 		for(int i = 1; i < m_Players.length;i++)
 		{
-			m_Players[i] = new Player("Player" + (i+1), false);
+			m_Players[i] = new Player("Player" + (i+1), false, m_Assets);
 		}
 	}
 }

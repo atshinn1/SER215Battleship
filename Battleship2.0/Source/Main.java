@@ -10,6 +10,9 @@ public class Main
 {
     public static void main(String[] args)
     {
-		MenuWindow menu = new MenuWindow();
+		//need loading screen for this
+		LoadAssets assets = new LoadAssets();
+		// end loading screen
+		MenuWindow menu = new MenuWindow(assets);
     }
 }

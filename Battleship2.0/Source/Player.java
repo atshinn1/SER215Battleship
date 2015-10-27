@@ -1,5 +1,5 @@
 /********************** 
-Name: main 
+Name: Player Object
 Author: Joshua Becker
 Create On: 9/9/15
 Updated On: 9/17/15
@@ -13,29 +13,32 @@ public class Player
 	private boolean m_Type;
 	private int m_Wins;
 	private int m_Losses;
+	private LoadAssets m_Assets;
+	private Board m_Board;
 	public Ship m_AirCarr;
 	public Ship m_Battleship;
 	public Ship m_Sub;
 	public Ship m_Cruiser;
 	public Ship m_Destoyer;
-	public Board m_Board;
+
 	
 	Player()
 	{
 		
 	}
-	Player(String name, boolean type)
+	Player(String name, boolean type, LoadAssets assets)
 	{
+		m_Assets = assets;
 		m_Name = name;
 		m_Type = type;
 		m_Losses = 0;
 		m_Wins = 0;
-		m_Board = new Board();
-		m_AirCarr = new Ship("AircraftCarrier", 5);
-		m_Battleship = new Ship("Battleship", 4);
-		m_Sub = new Ship("Submarine", 3);
-		m_Cruiser = new Ship("Cruiser", 3);
-		m_Destoyer = new Ship("Destroyer", 2);
+		m_Board = new Board(m_Assets);
+		m_AirCarr = new Ship("AircraftCarrier", 5, m_Assets);
+		m_Battleship = new Ship("Battleship", 4, m_Assets);
+		m_Sub = new Ship("Submarine", 3, m_Assets);
+		m_Cruiser = new Ship("Cruiser", 3, m_Assets);
+		m_Destoyer = new Ship("Destroyer", 2, m_Assets);
 	}
 	
 	public JLabel getBoard()
@@ -70,5 +73,13 @@ public class Player
 		m_Sub.reset();
 		m_Cruiser.reset();
 		m_Destoyer.reset();
+	}
+	public void updateBoard(ImageIcon img, int x, int y)
+	{
+		m_Board.updateBoard(img,x, y);
+	}
+	public void updateBoard(ImageIcon img,ImageIcon img1, int x, int y)
+	{
+		m_Board.updateBoard(img,img1,x, y);
 	}
 }

@@ -22,9 +22,12 @@ public class StartNewGameWindow
 	private JButton m_BackToMenu_B, m_StartGame_B;
 	private JComboBox<String> m_NumOfPly_CB, m_AIDiff_CB;
 	private JLabel m_Background_L;
+	private LoadAssets m_Assets;
 	
-    public StartNewGameWindow(JFrame window)// constructer
+    public StartNewGameWindow(JFrame window, LoadAssets assets)// constructer
     {
+		m_Assets = assets;
+		
 		m_GameSetUpFrame = window;
 		
 		createComponents();
@@ -50,15 +53,15 @@ public class StartNewGameWindow
 		m_ScreenWidth = gd.getDisplayMode().getWidth();
 		m_ScreenHeight = gd.getDisplayMode().getHeight();
 		
-		m_Background_L = new JLabel(loadBackround());
+		m_Background_L = new JLabel(m_Assets.getImage("MenuBG"));
 		
 		m_StartNewGameFrame = new JFrame("Game Set Up: new Game");
 		
 		m_AIDiff_CB = new JComboBox<String>(difficulty);
 		m_NumOfPly_CB = new JComboBox<String>(numOfPly);
 		
-		m_BackToMenu_B = new JButton(loadButton("BackToMainMenuButton"));
-		m_StartGame_B = new JButton(loadButton("StartGameButton"));
+		m_BackToMenu_B = new JButton(m_Assets.getImage("BackToMainMenuButton"));
+		m_StartGame_B = new JButton(m_Assets.getImage("StartGameButton"));
 	}
 	/**buildComponents
 	* set up components and there attributes.
@@ -73,7 +76,7 @@ public class StartNewGameWindow
 		
 		m_StartNewGameFrame.setUndecorated(true);
         m_StartNewGameFrame.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
-		m_StartNewGameFrame.setSize(new Dimension(m_ScreenWidth/4,m_ScreenHeight/4));
+		m_StartNewGameFrame.setSize(new Dimension(m_ScreenWidth,m_ScreenHeight));
 		
 		m_BackToMenu_B.setMargin(new Insets(0,0,0,0));
 		m_StartGame_B.setMargin(new Insets(0,0,0,0));
@@ -150,8 +153,8 @@ public class StartNewGameWindow
 						/*Loading Screen...*/
 						m_GameSetUpFrame.dispose();
 						m_StartNewGameFrame.dispose();
-						Game game = new Game(m_AIDiff_CB.getSelectedIndex(), m_NumOfPly_CB.getSelectedIndex());
-						SetUpBoardWindow newGame = new SetUpBoardWindow(game);
+						Game game = new Game(m_AIDiff_CB.getSelectedIndex(), m_NumOfPly_CB.getSelectedIndex(), m_Assets);
+						SetUpBoardWindow newGame = new SetUpBoardWindow(game, m_Assets);
 				// create default error message
 			}
 		}  
@@ -171,47 +174,5 @@ public class StartNewGameWindow
 			// create default error message
 			}
 		}
-	}
-	/**loadImg
-	* loads image from file.
-	* J.B.
-	**/
-	private Icon loadButton(String name)
-	{
-		String path = "";
-		path = System.getProperty("user.dir");
-		path = path.replace('\\','/');
-		path = path.replaceAll("Source", "Assets/GUI/MenuButtons/" + name + ".png");
-
-		try 
-		{
-		Image img = ImageIO.read(new File(path));
-		return new ImageIcon(img);
-		
-		} catch (IOException ex) 
-		{
-			System.out.println("FIle Not Found\nFile Path: " + path);
-		}
-			return null;
-	}
-	
-	private ImageIcon loadBackround()
-	{
-		String path = "";
-		path = System.getProperty("user.dir");
-		path = path.replace('\\','/');
-		path = path.replaceAll("Source", "Assets/GUI/MenuImages/MenuBG.jpg");
-		
-		try 
-		{
-			Image img = ImageIO.read(new File(path));
-			Image newimg = img.getScaledInstance(m_ScreenWidth, m_ScreenHeight,  java.awt.Image.SCALE_SMOOTH);
-			return new ImageIcon(newimg);
-		
-		} catch (IOException ex) 
-		{
-			System.out.println("FIle Not Found\nFile Path: " + path);
-		}
-			return null;
 	}
 }
