@@ -15,6 +15,12 @@ public class Ship
 {
 	public static final boolean Y_AXIS = true;
 	public static final boolean X_AXIS = false;
+	public static final int CARRIER_LENGTH = 5;
+	public static final int BATTLESHIP_LENGTH = 4;
+	public static final int CRUISER_LENGTH = 2;
+	public static final int DESTROYER_LENGTH = 3;
+	public static final int SUBMARINE_LENGTH = 3;
+	
 	private String m_Name;
 	private int m_Length;
 	private int m_Lives;
@@ -105,8 +111,24 @@ public class Ship
 	{
 		return m_Location;
 	}
+	public void setLocation(int x, int y)
+	{
+		m_Location.setLocation(x,y);
+	}
 	public void reset()
 	{
 		m_Lives = m_Length;
+	}
+	public static boolean isShip(String name)
+	{
+		switch(name)
+		{
+			case "AircraftCarrier": return true;
+			case "Battleship":      return true; 
+			case "Submarine":       return true;
+			case "Cruiser":         return true;
+			case "Destroyer":       return true;
+			default: return false;
+		}
 	}
 }

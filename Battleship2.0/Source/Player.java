@@ -34,11 +34,11 @@ public class Player
 		m_Losses = 0;
 		m_Wins = 0;
 		m_Board = new Board(m_Assets);
-		m_AirCarr = new Ship("AircraftCarrier", 5, m_Assets);
-		m_Battleship = new Ship("Battleship", 4, m_Assets);
-		m_Sub = new Ship("Submarine", 3, m_Assets);
-		m_Cruiser = new Ship("Cruiser", 2, m_Assets);
-		m_Destoyer = new Ship("Destroyer", 2, m_Assets);
+		m_AirCarr = new Ship("AircraftCarrier", Ship.CARRIER_LENGTH, m_Assets);
+		m_Battleship = new Ship("Battleship", Ship.BATTLESHIP_LENGTH, m_Assets);
+		m_Sub = new Ship("Submarine", Ship.SUBMARINE_LENGTH, m_Assets);
+		m_Cruiser = new Ship("Cruiser", Ship.CRUISER_LENGTH, m_Assets);
+		m_Destoyer = new Ship("Destroyer", Ship.DESTROYER_LENGTH, m_Assets);
 	}
 	
 	public JLabel getBoard()
@@ -74,8 +74,43 @@ public class Player
 		m_Cruiser.reset();
 		m_Destoyer.reset();
 	}
+	public Ship getShip(String name)
+	{
+		switch(name)
+		{
+			case "AircraftCarrier": return m_AirCarr;
+			case "Battleship":      return m_Battleship; 
+			case "Submarine":       return m_Sub;
+			case "Cruiser":         return m_Cruiser;
+			case "Destroyer":       return m_Destoyer;
+			default: return null;
+		}
+	}
+	public Ship getShip(int index)
+	{
+		switch(index)
+		{
+			case 0: 	return m_AirCarr;
+			case 1:     return m_Battleship; 
+			case 2:     return m_Sub;
+			case 3:     return m_Cruiser;
+			case 4:     return m_Destoyer;
+			default:    return null;
+		}
+	}
 	public void updateBoard(Ship ship, int x, int y)
 	{
 		m_Board.updateBoard(ship,x, y);
+	}
+	public Ship getNextShip()
+	{
+		return getShip(m_Board.getShipCount());
+	}
+	public void setNextShip()
+	{
+		if(m_Board.getShipCount() < 5)
+		{
+			m_Board.addNextShip(getShip(m_Board.getShipCount()));
+		}
 	}
 }

@@ -21,18 +21,24 @@ public class Board
 	private int m_ScreenHeight, m_ScreenWidth;
 	private LoadAssets m_Assets;
 	private int[] m_OutOfBounds;
+	private int m_ShipCount;
 	
 	Board(LoadAssets assets)
 	{
 		m_Assets = assets;
+		m_ShipCount = 0;
 		
-		m_OutOfBounds = new int[35];
+		m_OutOfBounds = new int[55];
 		setOutOfBounds();
 		
 		m_GameBoardGrid_L = new JLabel[21][16];
 		m_GameBoard_L = new JLabel(m_Assets.getImage("GameBoard"));
 		
-		m_GameBoard_L.setLayout(new FlowLayout(FlowLayout.RIGHT, 0,0));
+		FlowLayout boardLayout = new FlowLayout();
+		boardLayout.setHgap(0);
+		boardLayout.setVgap(0);
+		
+		m_GameBoard_L.setLayout(boardLayout);
 		
 		createBoard();
 		
@@ -41,6 +47,10 @@ public class Board
 		m_ScreenHeight = gd.getDisplayMode().getHeight();
 	}
 	
+	public int getShipCount()
+	{
+		return m_ShipCount;
+	}
 	public JLabel getBoard()
 	{
 		return m_GameBoard_L;
@@ -49,6 +59,32 @@ public class Board
 	public JLabel getBoardHide()
 	{
 		return m_GameBoard_L;// show board with hidden ships, for others to see
+	}
+	public void addNextShip(Ship ship)
+	{
+		int height = m_Assets.getImage("GameBoard").getIconHeight()/21;
+		int width = m_Assets.getImage("GameBoard").getIconWidth()/16;
+		int x = 1; int y = 1;
+		int newLoc = (y)*16 + x;
+		
+		while(hasShip(newLoc, ship.getLength(), ship.getName()))//find safe location
+		{
+			y++;
+			newLoc = (y)*16 + x;
+		}
+		
+		((JLabel) m_GameBoard_L.getComponent(newLoc)).setText(ship.getName());
+		((JLabel) m_GameBoard_L.getComponent(newLoc)).setIcon(ship.getImage());
+		((JLabel) m_GameBoard_L.getComponent(newLoc)).setPreferredSize(new Dimension(width*ship.getLength(), height));
+		for(int i = 1; i < ship.getLength(); i++)
+		{
+			((JLabel) m_GameBoard_L.getComponent(newLoc + i)).setVisible(false);
+			((JLabel) m_GameBoard_L.getComponent(newLoc + i)).setText(ship.getName());
+			System.out.println(newLoc+ i);
+		}
+		System.out.println("New Loc" + newLoc + " Total count: " + m_GameBoard_L.getComponentCount());
+		ship.setLocation(x,y);
+		m_ShipCount++;
 	}
 	private void createBoard()
 	{
@@ -71,36 +107,69 @@ public class Board
 	
 	public void updateBoard(Ship ship, int x, int y)
 	{
+		int height = m_Assets.getImage("GameBoard").getIconHeight()/21;
+		int width = m_Assets.getImage("GameBoard").getIconWidth()/16;
+		int oldLoc = ship.getLocation().y()*16 + ship.getLocation().x();
+		int newLoc = (y)*16 + x;
 		
-		int loc = (y)*16 + x;
-		System.out.println(loc);
-		if(!isOutOfBounds(loc))
+		if(!isOutOfBounds(newLoc, ship.getLength()) && newLoc <=  336-ship.getLength() && !hasShip(newLoc, ship.getLength(), ship.getName()))
 		{
-			m_GameBoard_L.remove(loc);
+			((JLabel) m_GameBoard_L.getComponent(oldLoc)).setPreferredSize(new Dimension(width, height));
+			((JLabel) m_GameBoard_L.getComponent(oldLoc)).setText(oldLoc + "");
+			
+			for(int i = 0; i < ship.getLength(); i++)
+			{
+				((JLabel) m_GameBoard_L.getComponent(oldLoc + i)).setText((oldLoc + i) + "");
+				((JLabel) m_GameBoard_L.getComponent(oldLoc + i)).setVisible(true);
+			}
+			
+			((JLabel) m_GameBoard_L.getComponent(oldLoc)).setIcon(null);
+			((JLabel) m_GameBoard_L.getComponent(newLoc)).setText(ship.getName());
+			((JLabel) m_GameBoard_L.getComponent(newLoc)).setIcon(ship.getImage());
+			((JLabel) m_GameBoard_L.getComponent(newLoc)).setPreferredSize(new Dimension(width*ship.getLength(), height));
 			for(int i = 1; i < ship.getLength(); i++)
 			{
-				m_GameBoard_L.remove(loc + i - 1);
+				((JLabel) m_GameBoard_L.getComponent(newLoc + i)).setVisible(false);
+				((JLabel) m_GameBoard_L.getComponent(newLoc + i)).setText(ship.getName());
+				System.out.println(newLoc+ i);
 			}
-			m_GameBoard_L.add(new JLabel(ship.getImage()),loc);
+			System.out.println("New Loc" + newLoc + " Total count: " + m_GameBoard_L.getComponentCount());
+			ship.setLocation(x,y);
 		}
 	}
 	
 	private void setOutOfBounds()
 	{
+		int j = 0;
 		for(int i = 0; i < 16; i++)
 		{
-			m_OutOfBounds[i] = (i);
+			m_OutOfBounds[j++] = (i);
 		}
 		for(int i = 1; i < 21; i++)
 		{
-			m_OutOfBounds[i] = (i*16);
+			m_OutOfBounds[j++] = (i*16);
+		}
+		for(int i = 2; i < 21; i++)
+		{
+			m_OutOfBounds[j++] = (i*16 - 1);
 		}
 	}
-	private boolean isOutOfBounds(int loc)
+	private boolean isOutOfBounds(int loc, int length)
 	{
-		for(int i = 0; i < 35; i++)
+		for(int i = 0; i < 55; i++)
 		{
-			if(m_OutOfBounds[i] == loc)
+			if(m_OutOfBounds[i] == loc || m_OutOfBounds[i] == loc + length-2)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	private boolean hasShip(int loc, int length, String shipName)
+	{
+		for(int i = 0; i < length; i++)
+		{
+			if(Ship.isShip(((JLabel) m_GameBoard_L.getComponent(loc + i)).getText()) && ((JLabel) m_GameBoard_L.getComponent(loc + i)).getText() != shipName)
 			{
 				return true;
 			}

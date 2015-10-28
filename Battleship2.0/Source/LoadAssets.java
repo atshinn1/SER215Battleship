@@ -41,13 +41,11 @@ public class LoadAssets
 		m_StartANewGame_B = loadButtonImage("StartANewGameButton.png");
 		m_StartGame_B = loadButtonImage("StartGameButton.png");
 		
-		m_AircraftCarrier = loadShipImage("AircraftCarrier.png", 5);
-		m_Battleship = loadShipImage("Battleship.png", 4);
-		m_Cruiser = loadShipImage("Cruiser.png" , 3);
-		m_CruiserXTop = loadShipImage("Cruiser_X_TOP.png" , 1);
-		m_CruiserXBut = loadShipImage("Cruiser_X_But.png" , 1);
-		m_Destroyer = loadShipImage("Destroyer.png", 3);
-		m_Submarine = loadShipImage("Submarine.png", 2);
+		m_AircraftCarrier = loadShipImage("AircraftCarrier.png", Ship.CARRIER_LENGTH);
+		m_Battleship = loadShipImage("Battleship.png", Ship.BATTLESHIP_LENGTH);
+		m_Cruiser = loadShipImage("Cruiser.png" , Ship.CRUISER_LENGTH);
+		m_Destroyer = loadShipImage("Destroyer.png", Ship.DESTROYER_LENGTH);
+		m_Submarine = loadShipImage("Submarine.png", Ship.SUBMARINE_LENGTH);
 	}
 	
 	public ImageIcon getImage(String name)
@@ -140,7 +138,7 @@ public class LoadAssets
 		try 
 		{
 			img = ImageIO.read(new File(path));
-			img = img.getScaledInstance(width*2, height,  java.awt.Image.SCALE_SMOOTH);
+			img = img.getScaledInstance(width*scale, height,  java.awt.Image.SCALE_SMOOTH);
 			return new ImageIcon(img);
 		} catch (IOException ex) 
 		{

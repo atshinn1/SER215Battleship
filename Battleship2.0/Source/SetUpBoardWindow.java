@@ -31,7 +31,7 @@ public class SetUpBoardWindow
     {
 		m_currentGame = game;
 		m_CurrentPlayer = game.getPlayer("Player 1");
-		m_CurrentShip = m_CurrentPlayer.m_Cruiser;
+		m_CurrentShip = m_CurrentPlayer.getShip(0);
 		
 		m_Assets = assets;
 		
@@ -101,6 +101,7 @@ public class SetUpBoardWindow
 		m_Background_L.add(new JLabel("\n\n"));*/
 		//m_Background_L.add(m_BackToMenu_B);
 		setKeyBind();
+		m_Background_L.setForeground(Color.WHITE);
 		
 		JLabel instructions[] = {new JLabel("Use the Arrow Keys to move the ship"), new JLabel("Press the Space Bar to change the oriantation"), 
 								 new JLabel("Press Enter to Place the Ship"), new JLabel("Press Esc to quit")};
@@ -119,7 +120,7 @@ public class SetUpBoardWindow
 		m_Instructions_L.add(instructions[2]);
 		m_Instructions_L.add(instructions[3]);
 		
-		m_CurrentPlayer.updateBoard(m_CurrentShip, m_CurrentShip.getLocation().x(),  m_CurrentShip.getLocation().y());
+		m_CurrentPlayer.setNextShip();
 		JLabel board = m_CurrentPlayer.getBoard();
 		
 		board.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -186,17 +187,27 @@ public class SetUpBoardWindow
 				case "EXIT": System.exit(1);// DOUBLE CHECK WHERE TO SEND...
 				case "UP": 
 						m_CurrentPlayer.updateBoard(m_CurrentShip, m_CurrentShip.getLocation().x(),  m_CurrentShip.getLocation().y()-1);
-						m_Background_L.remove(0); 
-						m_Background_L.add(m_CurrentPlayer.getBoard(),0);
 						m_Background_L.setSize(new Dimension(m_ScreenWidth-1, m_ScreenHeight-1));
 						m_Background_L.setSize(new Dimension(m_ScreenWidth, m_ScreenHeight));
 						break;
 				case "DOWN": 
 						m_CurrentPlayer.updateBoard(m_CurrentShip, m_CurrentShip.getLocation().x(),  m_CurrentShip.getLocation().y()+1);
-						m_Background_L.remove(0); 
-						m_Background_L.add(m_CurrentPlayer.getBoard(),0);
 						m_Background_L.setSize(new Dimension(m_ScreenWidth-1, m_ScreenHeight-1));
 						m_Background_L.setSize(new Dimension(m_ScreenWidth, m_ScreenHeight));
+						break;
+				case "LEFT": 
+						m_CurrentPlayer.updateBoard(m_CurrentShip, m_CurrentShip.getLocation().x()-1,  m_CurrentShip.getLocation().y());
+						m_Background_L.setSize(new Dimension(m_ScreenWidth-1, m_ScreenHeight-1));
+						m_Background_L.setSize(new Dimension(m_ScreenWidth, m_ScreenHeight));
+						break;
+				case "RIGHT": 
+						m_CurrentPlayer.updateBoard(m_CurrentShip, m_CurrentShip.getLocation().x()+1,  m_CurrentShip.getLocation().y());
+						m_Background_L.setSize(new Dimension(m_ScreenWidth-1, m_ScreenHeight-1));
+						m_Background_L.setSize(new Dimension(m_ScreenWidth, m_ScreenHeight));
+						break;
+				case "ENTER": 
+						m_CurrentShip = m_CurrentPlayer.getNextShip();
+						m_CurrentPlayer.setNextShip(); 
 						break;
 			}
         }
@@ -221,6 +232,9 @@ public class SetUpBoardWindow
 	{
 		m_Background_L.getInputMap().put(KeyStroke.getKeyStroke("ESCAPE"),"EXIT");
 		m_Background_L.getActionMap().put( "EXIT", new KeyAction("EXIT"));
+		
+		m_Background_L.getInputMap().put(KeyStroke.getKeyStroke("ENTER"),"ENTER");
+		m_Background_L.getActionMap().put( "ENTER", new KeyAction("ENTER"));
 		
 		m_Background_L.getInputMap().put(KeyStroke.getKeyStroke("UP"),"UP");
 		m_Background_L.getActionMap().put( "UP", new KeyAction("UP"));
