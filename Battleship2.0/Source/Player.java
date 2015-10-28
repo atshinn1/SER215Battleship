@@ -37,7 +37,7 @@ public class Player
 		m_AirCarr = new Ship("AircraftCarrier", 5, m_Assets);
 		m_Battleship = new Ship("Battleship", 4, m_Assets);
 		m_Sub = new Ship("Submarine", 3, m_Assets);
-		m_Cruiser = new Ship("Cruiser", 3, m_Assets);
+		m_Cruiser = new Ship("Cruiser", 2, m_Assets);
 		m_Destoyer = new Ship("Destroyer", 2, m_Assets);
 	}
 	
@@ -74,12 +74,8 @@ public class Player
 		m_Cruiser.reset();
 		m_Destoyer.reset();
 	}
-	public void updateBoard(ImageIcon img, int x, int y)
+	public void updateBoard(Ship ship, int x, int y)
 	{
-		m_Board.updateBoard(img,x, y);
-	}
-	public void updateBoard(ImageIcon img,ImageIcon img1, int x, int y)
-	{
-		m_Board.updateBoard(img,img1,x, y);
+		m_Board.updateBoard(ship,x, y);
 	}
 }

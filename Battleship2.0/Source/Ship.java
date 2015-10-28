@@ -13,17 +13,54 @@ import java.io.*;
 
 public class Ship
 {
+	public static final boolean Y_AXIS = true;
+	public static final boolean X_AXIS = false;
 	private String m_Name;
 	private int m_Length;
 	private int m_Lives;
 	private ImageIcon image;
 	private LoadAssets m_Assets;
+	private boolean m_Orientation;
+	private Location m_Location;
+	
+	class Location
+	{
+		private int m_x;
+		private int m_y;
+		
+		Location()
+		{
+			m_x = 1;
+			m_y = 1;
+		}
+		
+		Location(int x, int y)
+		{
+			m_x = x;
+			m_y = y;
+		}
+		public void setLocation(int x, int y)
+		{
+			m_x = x;
+			m_y = y;
+		}
+		public int x()
+		{
+			return m_x;
+		}
+		public int y()
+		{
+			return m_y;
+		}
+	}
 	
 	Ship()
 	{
 		m_Name = "Dumb Ship";
 		m_Length = 20;
 		m_Lives = 20;
+		m_Location = new Location();
+		m_Orientation = Ship.X_AXIS;
 	}
 	Ship(String name, int length, LoadAssets assets)
 	{
@@ -31,6 +68,9 @@ public class Ship
 		m_Name = name;
 		m_Length = length;
 		m_Lives = length;
+		m_Location = new Location(1,1);
+		m_Orientation = Ship.X_AXIS;
+		
 		image = m_Assets.getImage(name);
 		if(image == null)
 		{
@@ -59,6 +99,11 @@ public class Ship
 	public ImageIcon getImage()
 	{
 		return image;
+	}
+	
+	public Location getLocation()
+	{
+		return m_Location;
 	}
 	public void reset()
 	{

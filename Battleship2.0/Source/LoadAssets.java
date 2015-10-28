@@ -134,11 +134,13 @@ public class LoadAssets
 		path = path.replace('\\','/');
 		path = path.replaceAll("Source", "Assets/Ships/" + name);
 		Image img;
+		int height = m_Board.getIconHeight()/21;
+		int width = m_Board.getIconWidth()/16;
 		
 		try 
 		{
 			img = ImageIO.read(new File(path));
-			img = img.getScaledInstance(29*scale,29,  java.awt.Image.SCALE_SMOOTH);
+			img = img.getScaledInstance(width*2, height,  java.awt.Image.SCALE_SMOOTH);
 			return new ImageIcon(img);
 		} catch (IOException ex) 
 		{

@@ -23,11 +23,15 @@ public class SetUpBoardWindow
 	private JComboBox<String> m_NumOfPly_CB, m_AIDiff_CB;
 	private JLabel m_Background_L, m_Instructions_L;
 	private Game m_currentGame;
+	private Player m_CurrentPlayer;
+	private Ship m_CurrentShip;
 	private LoadAssets m_Assets;
 	
     public SetUpBoardWindow(Game game, LoadAssets assets)// constructer
     {
 		m_currentGame = game;
+		m_CurrentPlayer = game.getPlayer("Player 1");
+		m_CurrentShip = m_CurrentPlayer.m_Cruiser;
 		
 		m_Assets = assets;
 		
@@ -110,21 +114,16 @@ public class SetUpBoardWindow
 		instructions[2].setForeground(Color.WHITE);
 		instructions[3].setForeground(Color.WHITE);	
 		
-		
-		m_currentGame.getPlayer("Player 1").updateBoard(m_Assets.getImage("CruiserXTop"),m_Assets.getImage("CruiserXBut"), 10, 10);
-		JLabel board = m_currentGame.getPlayer("Player 1").getBoard();
-		
-		
-		
 		m_Instructions_L.add(instructions[0]);
 		m_Instructions_L.add(instructions[1]);
 		m_Instructions_L.add(instructions[2]);
 		m_Instructions_L.add(instructions[3]);
 		
+		m_CurrentPlayer.updateBoard(m_CurrentShip, m_CurrentShip.getLocation().x(),  m_CurrentShip.getLocation().y());
+		JLabel board = m_CurrentPlayer.getBoard();
+		
 		board.setAlignmentX(Component.CENTER_ALIGNMENT);
 		m_Instructions_L.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
-		System.out.println(m_currentGame.getPlayer("Player 1").getBoard().getComponentCount() + " board count");
 		
 		m_Background_L.add(board);
 		m_Background_L.add(m_Instructions_L);
@@ -134,12 +133,6 @@ public class SetUpBoardWindow
 		m_SetUpBoard_F.pack();
 		
 		m_SetUpBoard_F.setVisible(true);
-	}
-	
-	private void updateBoard()
-	{
-		m_SetUpBoard_F.removeAll();
-		m_SetUpBoard_F.add(m_currentGame.getPlayer("Player 1").getBoard());
 	}
 	/**addActionListeners
 	* adds ActionListener, which wait till
@@ -191,6 +184,20 @@ public class SetUpBoardWindow
             switch(m_Command)
 			{
 				case "EXIT": System.exit(1);// DOUBLE CHECK WHERE TO SEND...
+				case "UP": 
+						m_CurrentPlayer.updateBoard(m_CurrentShip, m_CurrentShip.getLocation().x(),  m_CurrentShip.getLocation().y()-1);
+						m_Background_L.remove(0); 
+						m_Background_L.add(m_CurrentPlayer.getBoard(),0);
+						m_Background_L.setSize(new Dimension(m_ScreenWidth-1, m_ScreenHeight-1));
+						m_Background_L.setSize(new Dimension(m_ScreenWidth, m_ScreenHeight));
+						break;
+				case "DOWN": 
+						m_CurrentPlayer.updateBoard(m_CurrentShip, m_CurrentShip.getLocation().x(),  m_CurrentShip.getLocation().y()+1);
+						m_Background_L.remove(0); 
+						m_Background_L.add(m_CurrentPlayer.getBoard(),0);
+						m_Background_L.setSize(new Dimension(m_ScreenWidth-1, m_ScreenHeight-1));
+						m_Background_L.setSize(new Dimension(m_ScreenWidth, m_ScreenHeight));
+						break;
 			}
         }
     }

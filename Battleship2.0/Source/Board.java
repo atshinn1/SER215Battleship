@@ -13,21 +13,26 @@ import javax.swing.JFrame;
 import javax.imageio.*;
 import java.awt.image.*;
 import java.io.*;
+import java.util.*;
 
 public class Board
 {	
 	private JLabel  m_GameBoardGrid_L[][], m_GameBoard_L;
 	private int m_ScreenHeight, m_ScreenWidth;
 	private LoadAssets m_Assets;
+	private int[] m_OutOfBounds;
 	
 	Board(LoadAssets assets)
 	{
 		m_Assets = assets;
 		
+		m_OutOfBounds = new int[35];
+		setOutOfBounds();
+		
 		m_GameBoardGrid_L = new JLabel[21][16];
 		m_GameBoard_L = new JLabel(m_Assets.getImage("GameBoard"));
 		
-		m_GameBoard_L.setLayout(new GridLayout(21,16,0,0));
+		m_GameBoard_L.setLayout(new FlowLayout(FlowLayout.RIGHT, 0,0));
 		
 		createBoard();
 		
@@ -46,65 +51,60 @@ public class Board
 		return m_GameBoard_L;// show board with hidden ships, for others to see
 	}
 	private void createBoard()
-	{	
+	{
+		int height = m_Assets.getImage("GameBoard").getIconHeight()/21;
+		int width = m_Assets.getImage("GameBoard").getIconWidth()/16;
+		int count = 0;
 		for(int y = 0; y < 21;y++)
 		{
 			for(int x = 0; x < 16; x++)
 			{
-				m_GameBoardGrid_L[y][x] = new JLabel("");
+				m_GameBoardGrid_L[y][x] = new JLabel("" + count);
+				m_GameBoardGrid_L[y][x].setPreferredSize(new Dimension(width, height));
+				m_GameBoardGrid_L[y][x].setForeground(Color.WHITE);
 				m_GameBoard_L.add(m_GameBoardGrid_L[y][x]);
+				count++;
 			}
+			
 		}
 	}
 	
-	public void updateBoard(ImageIcon image, int xx, int yy)
+	public void updateBoard(Ship ship, int x, int y)
 	{
-		m_GameBoard_L.removeAll();
-		m_GameBoardGrid_L = new JLabel[21][16];
-		m_GameBoard_L = new JLabel(m_Assets.getImage("GameBoard"));
-		m_GameBoard_L.setLayout(new GridLayout(21,16,0,0));
 		
-		for(int y = 0; y < 21;y++)
+		int loc = (y)*16 + x;
+		System.out.println(loc);
+		if(!isOutOfBounds(loc))
 		{
-			for(int x = 0; x < 16; x++)
+			m_GameBoard_L.remove(loc);
+			for(int i = 1; i < ship.getLength(); i++)
 			{
-				if(xx == x && yy == y)
-				{
-					m_GameBoardGrid_L[y][x] = new JLabel(image);
-				}else
-				{
-					m_GameBoardGrid_L[y][x] = new JLabel("");
-				}
-				m_GameBoard_L.add(m_GameBoardGrid_L[y][x]);
+				m_GameBoard_L.remove(loc + i - 1);
 			}
+			m_GameBoard_L.add(new JLabel(ship.getImage()),loc);
 		}
 	}
-	public void updateBoard(ImageIcon image, ImageIcon image2, int xx, int yy)
+	
+	private void setOutOfBounds()
 	{
-		m_GameBoard_L.removeAll();
-		m_GameBoardGrid_L = new JLabel[21][16];
-		m_GameBoard_L = new JLabel(m_Assets.getImage("GameBoard"));
-		m_GameBoard_L.setLayout(new GridLayout(21,16,0,0));
-		
-		for(int y = 0; y < 21;y++)
+		for(int i = 0; i < 16; i++)
 		{
-			for(int x = 0; x < 16; x++)
+			m_OutOfBounds[i] = (i);
+		}
+		for(int i = 1; i < 21; i++)
+		{
+			m_OutOfBounds[i] = (i*16);
+		}
+	}
+	private boolean isOutOfBounds(int loc)
+	{
+		for(int i = 0; i < 35; i++)
+		{
+			if(m_OutOfBounds[i] == loc)
 			{
-				if(xx == x && yy == y)
-				{
-					m_GameBoardGrid_L[10][10] = new JLabel(m_Assets.getImage("CruiserXTop"));
-					m_GameBoard_L.add(m_GameBoardGrid_L[10][10]);
-					x++;
-					System.out.println(x + "");
-					m_GameBoardGrid_L[10][11] = new JLabel(m_Assets.getImage("CruiserXBut"));
-					m_GameBoard_L.add(m_GameBoardGrid_L[10][11]);
-				}else
-				{
-					m_GameBoardGrid_L[y][x] = new JLabel("");
-					m_GameBoard_L.add(m_GameBoardGrid_L[y][x]);
-				}
-				
+				return true;
 			}
 		}
+		return false;
 	}
 }
