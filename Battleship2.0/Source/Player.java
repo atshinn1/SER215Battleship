@@ -113,4 +113,13 @@ public class Player
 			m_Board.addNextShip(getShip(m_Board.getShipCount()));
 		}
 	}
+
+	//Alec: I added this so i can use the getPlayer in game class and write the players name to the client in a print statement
+	//I actually changed my implementation and dont need this but Im gonna leave it just in case someone adds to it in the future
+	public String toString(){
+		return m_Name;
+	}
+
+
+
 }
