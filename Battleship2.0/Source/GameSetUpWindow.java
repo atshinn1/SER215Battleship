@@ -1,10 +1,9 @@
-/* 
-Name: Menu Panel 
+/**
+Name: GameSetUpWindow
 Author: Joshua Becker
-Create On: 9/9/15
-Updated On: 9/19/15
+Create On: 10/26/15
 Contributors:
- */
+ **/
 
 import java.awt.*;
 import java.awt.event.*; 
@@ -41,7 +40,6 @@ public class GameSetUpWindow
 	/**createComponents
 	* creates components and gives them
 	* default values.
-	* J.B.
 	**/
 	public void createComponents()
 	{
@@ -61,7 +59,6 @@ public class GameSetUpWindow
 	}
 	/**buildComponents
 	* set up components and there attributes.
-	* J.B.
 	**/
 	public void buildComponents()
 	{
@@ -88,7 +85,6 @@ public class GameSetUpWindow
 	/**addElements
 	* add components to panels and
 	* adds panels to Frame
-	* J.B.
 	**/
 	public void addElements()
 	{
@@ -107,7 +103,6 @@ public class GameSetUpWindow
 	* adds ActionListener, which wait till
 	* an action is Performed then sends 
 	* a event to the type of listener.
-	* J.B.
 	**/
 	private void addActionListeners()
 	{
@@ -119,10 +114,6 @@ public class GameSetUpWindow
 	/**Listeners
 	* Once an event occurs the program goes here
 	* and decides what to do with each event.
-	*
-	*@peram MenuPanel.
-	*@peram nothing.
-	* J.B.
 	**/
 	private class ButtonListener implements ActionListener
 	{

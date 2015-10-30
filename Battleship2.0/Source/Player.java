@@ -1,8 +1,7 @@
 /********************** 
 Name: Player Object
 Author: Joshua Becker
-Create On: 9/9/15
-Updated On: 9/17/15
+Create On: 10/29/15
 Contributors:
 ***********************/
 import javax.swing.*;
@@ -74,6 +73,12 @@ public class Player
 		m_Cruiser.reset();
 		m_Destoyer.reset();
 	}
+	
+    /**getShip
+	* gets the ship by name
+	* @param int: index
+	* @return: Ship object.
+	**/
 	public Ship getShip(String name)
 	{
 		switch(name)
@@ -86,6 +91,12 @@ public class Player
 			default: return null;
 		}
 	}
+	
+	/**getShip
+	* gets the ship at a index.
+	* @param int: index
+	* @return: Ship object.
+	**/
 	public Ship getShip(int index)
 	{
 		switch(index)
@@ -98,14 +109,30 @@ public class Player
 			default:    return null;
 		}
 	}
+	
+	/**updateBoard
+	* updates the board with the ship object and the new x, y values.
+	* @param Ship: object to be updated
+	* @param int: x location on grid
+	* @param int: y location on grid
+	**/
 	public void updateBoard(Ship ship, int x, int y)
 	{
 		m_Board.updateBoard(ship,x, y);
 	}
+	
+	/**getNextShip
+	* gets the next ship inline to be placed
+	**/
 	public Ship getNextShip()
 	{
 		return getShip(m_Board.getShipCount());
 	}
+	
+	/**setNextShip
+	* sets's the a new ship to the board.
+	* very similar to updateBoard.
+	**/
 	public void setNextShip()
 	{
 		if(m_Board.getShipCount() < 5)

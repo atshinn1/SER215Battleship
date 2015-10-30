@@ -1,8 +1,7 @@
 /********************** 
-Name: Board object 
+Name: Load Assets
 Author: Joshua Becker
-Create On: 9/9/15
-Updated On: 9/17/15
+Create On: 10/26/15
 Contributors:
 ***********************/
 import java.awt.*;

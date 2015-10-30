@@ -1,8 +1,7 @@
 /* 
 Name: Set Up Board Window
 Author: Joshua Becker
-Create On: 9/9/15
-Updated On: 9/19/15
+Create On: 10/26/15
 Contributors:
  */
 
@@ -46,7 +45,6 @@ public class SetUpBoardWindow
 	/**createComponents
 	* creates components and gives them
 	* default values.
-	* J.B.
 	**/
 	public void createComponents()
 	{
@@ -63,12 +61,6 @@ public class SetUpBoardWindow
 	}
 	/**buildComponents
 	* set up components and there attributes.
-	* J.B.
-	m_AirCarr;
-	m_Battleship;
-	m_Sub;
-	m_Cruiser;
-	m_Destoyer;
 	**/
 	public void buildComponents()
 	{
@@ -88,18 +80,9 @@ public class SetUpBoardWindow
 	/**addElements
 	* add components to panels and
 	* adds panels to Frame
-	* J.B.
 	**/
 	public void addElements()
-	{	
-		/*m_Background_L.add(new JLabel("\n\n"));
-		m_Background_L.add(m_AIDiff_CB);
-		m_Background_L.add(new JLabel("\n\n"));
-		m_Background_L.add(m_NumOfPly_CB);
-		m_Background_L.add(new JLabel("\n\n"));
-		m_Background_L.add(m_StartGame_B);
-		m_Background_L.add(new JLabel("\n\n"));*/
-		//m_Background_L.add(m_BackToMenu_B);
+	{
 		setKeyBind();
 		m_Background_L.setForeground(Color.WHITE);
 		
@@ -139,7 +122,6 @@ public class SetUpBoardWindow
 	* adds ActionListener, which wait till
 	* an action is Performed then sends 
 	* a event to the type of listener.
-	* J.B.
 	**/
 	private void addActionListeners()
 	{
@@ -149,10 +131,6 @@ public class SetUpBoardWindow
 	/**Listeners
 	* Once an event occurs the program goes here
 	* and decides what to do with each event.
-	*
-	*@peram MenuPanel.
-	*@peram nothing.
-	* J.B.
 	**/
 	private class ButtonListener implements ActionListener
 	{
@@ -167,6 +145,25 @@ public class SetUpBoardWindow
 		}  
 	}
 	
+	private class ComboListener implements ActionListener
+	{
+		public void actionPerformed(ActionEvent event)
+		{
+			String command = event.getActionCommand();
+			switch(command)
+			{
+				case "AIDiff":
+					break;
+				case "numOfPly":
+					break;
+			// create default error message
+			}
+		}
+	}
+	/**setKeyBind
+	* maps the key strokes with there actions
+	* and decides what to do with each event.
+	**/
 	private class KeyAction extends AbstractAction
     {
 		private String m_Command;
@@ -212,22 +209,10 @@ public class SetUpBoardWindow
 			}
         }
     }
-	
-	private class ComboListener implements ActionListener
-	{
-		public void actionPerformed(ActionEvent event)
-		{
-			String command = event.getActionCommand();
-			switch(command)
-			{
-				case "AIDiff":
-					break;
-				case "numOfPly":
-					break;
-			// create default error message
-			}
-		}
-	}
+	/**setKeyBind
+	* maps the key strokes with there actions
+	* and decides what to do with each event.
+	**/
 	private void setKeyBind()
 	{
 		m_Background_L.getInputMap().put(KeyStroke.getKeyStroke("ESCAPE"),"EXIT");
