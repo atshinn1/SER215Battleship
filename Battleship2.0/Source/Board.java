@@ -106,7 +106,7 @@ public class Board
 			m_GameBoard_X_L[y].setPreferredSize(new Dimension(m_boardWidth,m_boardHight/16));
 			for(int x = 0; x < 16; x++)
 			{
-				tmp = new JLabel(""+ x);
+				tmp = new JLabel("");
 				tmp.setMaximumSize(new Dimension(m_boardWidth/16, m_boardHight/21));
 				tmp.setForeground(Color.WHITE);
 				m_GameBoard_X_L[y].add(tmp);
@@ -120,7 +120,7 @@ public class Board
 			m_GameBoard_Y_L[x].setPreferredSize(new Dimension(m_boardWidth/16,m_boardHight));
 			for(int y = 0; y < 21; y++)
 			{
-				tmp = new JLabel(""+ y);
+				tmp = new JLabel("");
 				tmp.setMaximumSize(new Dimension(m_boardWidth/16, m_boardHight/21));
 				tmp.setForeground(Color.RED);
 				m_GameBoard_Y_L[x].add(tmp);
@@ -147,7 +147,6 @@ public class Board
 	}
 	public void updateBoard(Ship ship, int x, int y)
 	{
-		System.out.println("x= " + x + " y = " + y);
 		if(!isOutOfBounds(x, y, ship) && !hasShip(x,y,ship))
 		{
 			hideShip(ship, ship.x(), ship.y());//hid ship at old location
@@ -162,7 +161,7 @@ public class Board
 	{
 		if(ship.getAxis() == Ship.X_AXIS)
 		{
-			JLabel tmp = new JLabel("" + x);
+			JLabel tmp = new JLabel("");
 			tmp.setMaximumSize(new Dimension((m_boardWidth/16),m_boardHight/21));
 			tmp.setForeground(Color.WHITE);
 			m_GameBoard_X_L[y].remove(x);
@@ -171,11 +170,11 @@ public class Board
 			for(int i = 1; i < ship.getLength(); i++)
 			{
 				((JLabel) m_GameBoard_X_L[y].getComponent(x+i)).setVisible(true);
-				((JLabel) m_GameBoard_X_L[y].getComponent(x+i)).setText("" + (x+i));
+				((JLabel) m_GameBoard_X_L[y].getComponent(x+i)).setText("");
 			}
 		}else
 		{
-			JLabel tmp = new JLabel("" + y);
+			JLabel tmp = new JLabel("");
 			tmp.setMaximumSize(new Dimension((m_boardWidth/16),m_boardHight/21));
 			tmp.setForeground(Color.RED);
 			m_GameBoard_Y_L[x].remove(y);
@@ -184,7 +183,7 @@ public class Board
 			for(int i = 1; i < ship.getLength(); i++)
 			{
 				((JLabel) m_GameBoard_Y_L[x].getComponent(y-i)).setVisible(true);
-				((JLabel) m_GameBoard_Y_L[x].getComponent(y-i)).setText("" + (y-i));
+				((JLabel) m_GameBoard_Y_L[x].getComponent(y-i)).setText("");
 			}
 			
 			System.out.println(m_GameBoard_Y_L[x].getComponent(y).getWidth() + " h = " + m_GameBoard_Y_L[x].getComponent(y).getHeight() + " normal: " + (m_boardHight/21));
