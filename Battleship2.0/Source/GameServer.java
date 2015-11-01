@@ -21,6 +21,17 @@ public class GameServer{
 	//output stream to the client
 	private DataOutputStream outToClient;
 
+	//current game object
+	private Game currentGame;
+
+	//load assets object for game constructor
+	private LoadAssets gameAssets;
+
+	//giving it an initial value for now. Same for difficulty
+	private int numberOfPlayers=2,difficulty=2;
+
+
+
 	public static void main(String[] args){
 		new GameServer();
 	}
@@ -38,8 +49,14 @@ public class GameServer{
 			inFromClient=new DataInputStream(socket1.getInputStream());
 			outToClient=new DataOutputStream(socket1.getOutputStream());
 
+			//initialize loadAssets
+			gameAssets=new LoadAssets();
+
+			//initialize game object
+			currentGame=new Game(numberOfPlayers,difficulty,gameAssets);
+
 			while(true){
-				System.out.println("Made it");
+				outToClient.writeChars(currentGame.getPlayer("Player 1").toString() );
 			}
 
 
