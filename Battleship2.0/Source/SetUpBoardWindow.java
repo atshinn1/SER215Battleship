@@ -104,7 +104,7 @@ public class SetUpBoardWindow
 		m_Instructions_L.add(instructions[3]);
 		
 		m_CurrentPlayer.setNextShip();
-		JLabel board = m_CurrentPlayer.getBoard();
+		JPanel board = m_CurrentPlayer.getBoard();
 		
 		board.setAlignmentX(Component.CENTER_ALIGNMENT);
 		m_Instructions_L.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -201,6 +201,9 @@ public class SetUpBoardWindow
 						m_CurrentPlayer.updateBoard(m_CurrentShip, m_CurrentShip.getLocation().x()+1,  m_CurrentShip.getLocation().y());
 						m_Background_L.setSize(new Dimension(m_ScreenWidth-1, m_ScreenHeight-1));
 						m_Background_L.setSize(new Dimension(m_ScreenWidth, m_ScreenHeight));
+						break;
+				case "SPACE":
+						m_CurrentPlayer.flipAxis(m_CurrentShip);
 						break;
 				case "ENTER": 
 						m_CurrentShip = m_CurrentPlayer.getNextShip();

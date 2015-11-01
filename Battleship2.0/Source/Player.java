@@ -32,15 +32,15 @@ public class Player
 		m_Type = type;
 		m_Losses = 0;
 		m_Wins = 0;
-		m_Board = new Board(m_Assets);
 		m_AirCarr = new Ship("AircraftCarrier", Ship.CARRIER_LENGTH, m_Assets);
 		m_Battleship = new Ship("Battleship", Ship.BATTLESHIP_LENGTH, m_Assets);
 		m_Sub = new Ship("Submarine", Ship.SUBMARINE_LENGTH, m_Assets);
 		m_Cruiser = new Ship("Cruiser", Ship.CRUISER_LENGTH, m_Assets);
 		m_Destoyer = new Ship("Destroyer", Ship.DESTROYER_LENGTH, m_Assets);
+		m_Board = new Board(m_Assets, this);
 	}
 	
-	public JLabel getBoard()
+	public JPanel getBoard()
 	{
 		return m_Board.getBoard();
 	}
@@ -139,5 +139,16 @@ public class Player
 		{
 			m_Board.addNextShip(getShip(m_Board.getShipCount()));
 		}
+	}
+	/**flipAxis
+	* flips the axis of the ship and updates the board;
+	* @param Ship: ship obj to be fliped.
+	**/
+	public void flipAxis(Ship ship)
+	{
+		m_Board.hideShip(ship,ship.getLocation().x(),ship.getLocation().y());
+		ship.flipAxis();
+		m_Board.showShip(ship,ship.getLocation().x(),ship.getLocation().y());
+		System.out.println("x = " + ship.getLocation().x() + "  y = " + ship.getLocation().y());
 	}
 }
