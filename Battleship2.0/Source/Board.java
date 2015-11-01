@@ -27,6 +27,7 @@ public class Board
 	private int m_ShipCount;
 	private int m_boardWidth;
 	private int m_boardHight;
+	private boolean m_HasShip[][];
 	
 	Board(LoadAssets assets, Player currentPlayer)
 	{
@@ -35,6 +36,12 @@ public class Board
 		m_ShipCount = 0;
 	    m_boardHight = m_Assets.getImage("GameBoard").getIconHeight();
 		m_boardWidth = m_Assets.getImage("GameBoard").getIconWidth()+1;
+		m_HasShip = new boolean [16][21];
+		for(int i = 0; i < 16; i++)
+		{
+			Arrays.fill(m_HasShip[i],false);
+		}
+		
 		
 		createBoards();
 		
@@ -42,7 +49,7 @@ public class Board
 
 		fillBoards();
 		
-		//m_GameBoards_P.add(m_GameBoard_Y_P);
+		m_GameBoards_P.add(m_GameBoard_Y_P);
 		m_GameBoards_P.add(m_GameBoard_X_P);
 		m_GameBoards_P.add(new JLabel(m_Assets.getImage("GameBoard")));
 		
@@ -82,7 +89,7 @@ public class Board
 	{
 		LayoutManager overlay = new OverlayLayout(m_GameBoards_P);
 		
-		m_GameBoard_Y_P.setLayout(new FlowLayout(FlowLayout.TRAILING,0,0));
+		m_GameBoard_Y_P.setLayout(new GridLayout(1,16,0,0));
 		m_GameBoard_X_P.setLayout(new GridLayout(21,1,0,0));
 		
 		m_GameBoards_P.setLayout(overlay);
@@ -106,9 +113,6 @@ public class Board
 			}
 			m_GameBoard_X_P.add(m_GameBoard_X_L[y]);
 		}
-		System.out.println("size w = " + m_GameBoard_X_L[0].getComponent(0).getWidth() + " h =" +  m_GameBoard_X_L[0].getComponent(0).getHeight());
-		System.out.println("size w = " + m_GameBoard_X_P.getWidth() + " h =" +  m_GameBoard_X_P.getHeight());
-		System.out.println(m_GameBoard_X_P.getComponentCount() + "count");
 		for(int x = 0; x < 16; x++)
 		{
 		    m_GameBoard_Y_L[x] = new JLabel("");
@@ -146,17 +150,10 @@ public class Board
 		System.out.println("x= " + x + " y = " + y);
 		if(!isOutOfBounds(x, y, ship) && !hasShip(x,y,ship))
 		{
-			hideShip(ship, ship.getLocation().x(), ship.getLocation().y());//hid ship at old location
+			hideShip(ship, ship.x(), ship.y());//hid ship at old location
 				
 			showShip(ship, x, y);//show ship at new location
 				
-			ship.setLocation(x,y);
-		}else if(!isOutOfBounds(x, y, ship) && !hasShip(x,y,ship))
-		{
-			hideShip(ship, ship.getLocation().x(), ship.getLocation().y());//hid ship at old location
-			
-			showShip(ship, x, y);//show ship at new location
-			
 			ship.setLocation(x,y);
 		}
 	}
@@ -223,8 +220,65 @@ public class Board
 			}
 		}
 	}
-	private boolean hasShip(int x,int y, Ship ship)
+	public boolean isOutOfBounds(int x, int y, Ship ship)
 	{
+		if(ship.getAxis() == Ship.X_AXIS)
+		{
+			if(y > 20 || x > (16 - ship.getLength()) || x <= 0 || y <= 0)
+			{
+				return true;
+			}
+		}else
+		{
+			if(y > 20 || x > 15 || y < (ship.getLength()) || x <= 0 || y <= 0)
+			{
+				return true;
+			}
+		}
+		
+	return false;
+	}
+	private boolean hasShip(int x, int y, Ship ship)
+	{
+		if(m_HasShip[x][y])
+		{
+			return true;
+		}else if(ship.getAxis() == Ship.X_AXIS)
+		{
+			for(int j = 0; j < ship.getLength();j++)
+			{
+				if(m_HasShip[x+j][y])
+				{
+					return true;
+				}
+			}
+		}else
+		{
+			for(int j = 0; j < ship.getLength();j++)
+			{
+				if(m_HasShip[x][y-j])
+				{
+					return true;
+				}
+			}
+		}
 		return false;
+	}
+	public void addToTaken(int x, int y, Ship ship)
+	{
+		m_HasShip[x][y] = true;
+		if(ship.getAxis() == Ship.X_AXIS)
+		{
+			for(int j = 1; j < ship.getLength();j++)
+			{
+				m_HasShip[x+j][y] =true;
+			}
+		}else
+		{
+			for(int j = 1; j < ship.getLength();j++)
+			{
+				m_HasShip[x][y-j] =true;
+			}
+		}
 	}
 }

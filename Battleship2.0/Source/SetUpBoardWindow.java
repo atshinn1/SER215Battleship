@@ -205,7 +205,8 @@ public class SetUpBoardWindow
 				case "SPACE":
 						m_CurrentPlayer.flipAxis(m_CurrentShip);
 						break;
-				case "ENTER": 
+				case "ENTER":
+						m_CurrentPlayer.addToTaken(m_CurrentShip.x(),m_CurrentShip.y(),m_CurrentShip);
 						m_CurrentShip = m_CurrentPlayer.getNextShip();
 						m_CurrentPlayer.setNextShip(); 
 						break;
