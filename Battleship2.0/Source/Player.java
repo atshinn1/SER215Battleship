@@ -148,7 +148,7 @@ public class Player
 	{
 		m_Board.hideShip(ship,ship.x(),ship.y());
 		ship.flipAxis();
-		if(!m_Board.isOutOfBounds(ship.x(),ship.y(), ship))
+		if(!m_Board.isOutOfBounds(ship.x(),ship.y(), ship) && !m_Board.hasShip(ship.x(),ship.y(),ship))
 		{
 			m_Board.showShip(ship,ship.x(),ship.y());
 		}else

@@ -35,7 +35,7 @@ public class Board
 		m_CurrentPlayer = currentPlayer;
 		m_ShipCount = 0;
 	    m_boardHight = m_Assets.getImage("GameBoard").getIconHeight();
-		m_boardWidth = m_Assets.getImage("GameBoard").getIconWidth()+1;
+		m_boardWidth = m_Assets.getImage("GameBoard").getIconWidth()+2;
 		m_HasShip = new boolean [16][21];
 		for(int i = 0; i < 16; i++)
 		{
@@ -237,7 +237,7 @@ public class Board
 		
 	return false;
 	}
-	private boolean hasShip(int x, int y, Ship ship)
+	public boolean hasShip(int x, int y, Ship ship)
 	{
 		if(m_HasShip[x][y])
 		{

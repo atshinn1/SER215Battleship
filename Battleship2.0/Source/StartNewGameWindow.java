@@ -37,8 +37,6 @@ public class StartNewGameWindow
 		addActionListeners();
 		
 		addElements();
-		
-		m_GameSetUpFrame.setVisible(false);
 	}
 	/**createComponents
 	* creates components and gives them
@@ -151,10 +149,9 @@ public class StartNewGameWindow
 					break;
 				case "StartGame":
 						/*Loading Screen...*/
-						m_GameSetUpFrame.dispose();
-						m_StartNewGameFrame.dispose();
 						Game game = new Game(m_AIDiff_CB.getSelectedIndex(), m_NumOfPly_CB.getSelectedIndex(), m_Assets);
-						SetUpBoardWindow newGame = new SetUpBoardWindow(game, m_Assets);
+						SetUpBoardWindow newGame = new SetUpBoardWindow(game, m_Assets, m_StartNewGameFrame);
+						m_GameSetUpFrame.dispose();
 				// create default error message
 			}
 		}  
