@@ -21,7 +21,7 @@ public class GameWindow
 	private JButton m_Options_B, m_Exit_B;
 	private JLabel m_Background_L, m_Footer_L, m_Header_L;
 	private JLabel m_CurrentPlayerStats_L, m_OtherPlayerStats_L;
-	private JPanel m_Boards_P;
+	private JLabel m_Boards_P;
 	private Game m_CurrentGame;
 	private Player m_CurrentPlayer;
 	private LoadAssets m_Assets;
@@ -60,7 +60,7 @@ public class GameWindow
 		m_CurrentPlayerStats_L = new JLabel("");
 		m_OtherPlayerStats_L = new JLabel("");
 		
-		m_Boards_P = new JPanel();
+		m_Boards_P = new JLabel(m_Assets.getImage("GameBoardBlank"));
 		
 		m_Options_B = new JButton("Options");
 		
@@ -77,6 +77,11 @@ public class GameWindow
 		m_Footer_L.setLayout(new GridLayout(1,2,0,0));
 		m_Header_L.setLayout(new GridLayout(1,2,0,0));
 		
+		FlowLayout layout = new FlowLayout();
+		layout.setHgap((m_ScreenWidth -(m_CurrentPlayer.getBoard().getWidth()*2))/3);//getting a third spacing to center each window
+		
+		m_Boards_P.setLayout(layout);
+		
 		m_Footer_L.setPreferredSize(new Dimension(m_ScreenWidth, 40));
 		m_Footer_L.setMaximumSize(new Dimension(m_ScreenWidth, 40));
 		
@@ -86,11 +91,10 @@ public class GameWindow
 		m_CurrentPlayerStats_L.setLayout(new BoxLayout(m_CurrentPlayerStats_L, BoxLayout.Y_AXIS));
 		m_OtherPlayerStats_L.setLayout(new BoxLayout(m_OtherPlayerStats_L, BoxLayout.Y_AXIS));
 		
-		m_Boards_P.setLayout(new GridLayout(1,2,0,0));
-		m_Boards_P.setPreferredSize(new Dimension(m_CurrentPlayer.getBoard().getWidth()*2,m_CurrentPlayer.getBoard().getHeight()));
+		
+		m_Boards_P.setPreferredSize(new Dimension(m_ScreenWidth,m_CurrentPlayer.getBoard().getHeight()));
 		m_Boards_P.setMinimumSize(new Dimension(m_CurrentPlayer.getBoard().getWidth()*2,m_CurrentPlayer.getBoard().getHeight()));
-		m_Boards_P.setMaximumSize(new Dimension(m_CurrentPlayer.getBoard().getWidth()*2,m_CurrentPlayer.getBoard().getHeight()));
-		m_Boards_P.setOpaque(false);
+		m_Boards_P.setMaximumSize(new Dimension(m_ScreenWidth,m_CurrentPlayer.getBoard().getHeight()));
 		
 		m_Game_F.setUndecorated(true);
         m_Game_F.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
@@ -107,11 +111,12 @@ public class GameWindow
 		
 		JPanel board = m_CurrentPlayer.getBoard();
 		JPanel board2 = m_CurrentGame.getPlayer("AI").getBoard();
-		
-		board.setAlignmentX(Component.CENTER_ALIGNMENT);
+	
 		m_Boards_P.setAlignmentX(Component.CENTER_ALIGNMENT);
 		m_Footer_L.setAlignmentX(Component.CENTER_ALIGNMENT);
 		m_Header_L.setAlignmentX(Component.CENTER_ALIGNMENT);
+		board2.setAlignmentX(Component.CENTER_ALIGNMENT);
+		board.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		m_Boards_P.add(board);
 		m_Boards_P.add(board2);
