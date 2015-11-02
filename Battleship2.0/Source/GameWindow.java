@@ -212,7 +212,7 @@ public class GameWindow
 	private JLabel updatePlayerStats(Player player, JLabel stats)
 	{
 		stats.removeAll();
-		JLabel tmp = new JLabel("Stats");
+		JLabel tmp = new JLabel(player.getName() + " Stats");
 		tmp.setAlignmentX(Component.CENTER_ALIGNMENT);
 		tmp.setForeground(Color.WHITE);
 		stats.add(tmp);

@@ -14,6 +14,7 @@ public class Player
 	private int m_Losses;
 	private LoadAssets m_Assets;
 	private Board m_Board;
+	private int m_ShipsPlaced;
 	public Ship m_AirCarr;
 	public Ship m_Battleship;
 	public Ship m_Sub;
@@ -32,6 +33,7 @@ public class Player
 		m_Type = type;
 		m_Losses = 0;
 		m_Wins = 0;
+		m_ShipsPlaced = 0;
 		m_AirCarr = new Ship("AircraftCarrier", Ship.CARRIER_LENGTH, m_Assets);
 		m_Battleship = new Ship("Battleship", Ship.BATTLESHIP_LENGTH, m_Assets);
 		m_Sub = new Ship("Submarine", Ship.SUBMARINE_LENGTH, m_Assets);
@@ -142,7 +144,7 @@ public class Player
 	}
 	/**flipAxis
 	* flips the axis of the ship and updates the board;
-	* @param Ship: ship obj to be fliped.
+	* @param Ship: ship obj to be flipped.
 	**/
 	public void flipAxis(Ship ship)
 	{
@@ -162,10 +164,11 @@ public class Player
 	public void addToTaken(int x, int y, Ship ship)
 	{
 		m_Board.addToTaken(x,y,ship);
+		m_ShipsPlaced++;
 	}
 	public boolean allShipsSet()
 	{
-		return m_Board.getShipCount() == 5;
+		return m_ShipsPlaced == 5;
 	}
 	//Alec: I added this so i can use the getPlayer in game class and write the players name to the client in a print statement
 	//I actually changed my implementation and dont need this but Im gonna leave it just in case someone adds to it in the future

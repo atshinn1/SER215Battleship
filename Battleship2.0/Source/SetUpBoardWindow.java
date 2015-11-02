@@ -190,13 +190,6 @@ public class SetUpBoardWindow
 			if(m_Command.compareTo("EXIT") == 0)
 			{
 				System.exit(1);// DOUBLE CHECK WHERE TO SEND...
-			}
-			if(m_CurrentPlayer.allShipsSet())
-			{
-			    // DOUBLE CHECK IF THEY ARE READY...
-				GameWindow newGame = new GameWindow(m_CurrentGame,m_Assets,m_SetUpBoard_F);
-				m_OldWindow_F.dispose();
-				// DELETE MEMU BUTTONS AND THINGS...
 			}else
 			{
 				switch(m_Command)
@@ -228,6 +221,14 @@ public class SetUpBoardWindow
 							m_CurrentPlayer.addToTaken(m_CurrentShip.x(),m_CurrentShip.y(),m_CurrentShip);
 							m_CurrentShip = m_CurrentPlayer.getNextShip();
 							m_CurrentPlayer.setNextShip();
+							System.out.println(m_CurrentPlayer.get)
+							if(m_CurrentPlayer.allShipsSet())
+							{
+								// DOUBLE CHECK IF THEY ARE READY...
+								GameWindow newGame = new GameWindow(m_CurrentGame,m_Assets,m_SetUpBoard_F);
+								m_OldWindow_F.dispose();
+								// DELETE MEMU BUTTONS AND THINGS...
+							}
 							break;
 				}
 			}
