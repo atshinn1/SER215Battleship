@@ -30,6 +30,10 @@ public class Board
 	
 	Board(LoadAssets assets, Player currentPlayer)
 	{
+		/*Toolkit toolkit = Toolkit.getDefaultToolkit();
+		Cursor m_CrossHair_C = toolkit.createCustomCursor(m_Assets.getImage("BattleShip_Y", 1) , new Point(20, 
+           20), "img");*/
+		  
 		m_Assets = assets;
 		m_CurrentPlayer = currentPlayer;
 		m_ShipCount = 0;
@@ -110,11 +114,15 @@ public class Board
 		    m_GameBoard_X_L[y] = new JLabel("");
 			m_GameBoard_X_L[y].setLayout(new BoxLayout(m_GameBoard_X_L[y], BoxLayout.X_AXIS));
 			m_GameBoard_X_L[y].setPreferredSize(new Dimension(m_boardWidth,m_boardHight/16));
+			m_GameBoard_X_L[y].setMinimumSize(new Dimension(m_boardWidth,m_boardHight/16));
+			m_GameBoard_X_L[y].setMaximumSize(new Dimension(m_boardWidth,m_boardHight/16));
 			
 			for(int x = 0; x < 16; x++)
 			{
 				tmp = new JLabel("");
 				tmp.setMaximumSize(new Dimension(m_boardWidth/16, m_boardHight/21));
+				tmp.setPreferredSize(new Dimension(m_boardWidth/16, m_boardHight/21));
+				tmp.setMinimumSize(new Dimension(m_boardWidth/16, m_boardHight/21));
 				tmp.setForeground(Color.WHITE);
 				m_GameBoard_X_L[y].add(tmp);
 			}
@@ -126,6 +134,8 @@ public class Board
 		    m_GameBoard_Y_L[x] = new JLabel("");
 			m_GameBoard_Y_L[x].setLayout(new BoxLayout(m_GameBoard_Y_L[x], BoxLayout.Y_AXIS));
 			m_GameBoard_Y_L[x].setPreferredSize(new Dimension(m_boardWidth/16,m_boardHight));
+			m_GameBoard_Y_L[x].setMinimumSize(new Dimension(m_boardWidth,m_boardHight/16));
+			m_GameBoard_Y_L[x].setMaximumSize(new Dimension(m_boardWidth,m_boardHight/16));
 			
 		    m_GameBoardTargets_L[x] = new JLabel("");
 			m_GameBoardTargets_L[x].setLayout(new BoxLayout(m_GameBoardTargets_L[x], BoxLayout.Y_AXIS));
@@ -165,7 +175,7 @@ public class Board
 		public void mouseEntered(java.awt.event.MouseEvent evt) 
 		{
 			if(m_ShipCount >= 5)
-			m_GameBoardTargets_L[m_x].getComponent(m_y).setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
+			m_GameBoardTargets_L[m_x].getComponent(m_y).setCursor(m_CrossHair_C);
 		}
 
 		@Override
@@ -177,7 +187,12 @@ public class Board
 		public void mouseClicked(java.awt.event.MouseEvent evt)
 		{
 			System.out.println("here");
-			((JLabel) m_GameBoardTargets_L[m_x].getComponent(m_y)).setIcon(m_Assets.getImage("HitMarker"));
+			//((JLabel) m_GameBoardTargets_L[m_x].getComponent(m_y)).setIcon(m_Assets.getImage("HitMarker"));
+		}
+		@Override
+		public void mousePressed(java.awt.event.MouseEvent evt)
+		{
+			((JLabel) m_GameBoardTargets_L[m_x].getComponent(m_y)).setIcon(m_Assets.getImage("Target"));
 		}
 	}
 	public void addNextShip(Ship ship)
@@ -213,7 +228,10 @@ public class Board
 		if(ship.getAxis() == Ship.X_AXIS)
 		{
 			JLabel tmp = new JLabel("");
-			tmp.setMaximumSize(new Dimension((m_boardWidth/16),m_boardHight/21));
+			tmp.setMaximumSize(new Dimension(m_boardWidth/16, m_boardHight/21));
+			tmp.setPreferredSize(new Dimension(m_boardWidth/16, m_boardHight/21));
+			tmp.setMinimumSize(new Dimension(m_boardWidth/16, m_boardHight/21));
+			
 			tmp.setForeground(Color.WHITE);
 			m_GameBoard_X_L[y].remove(x);
 			m_GameBoard_X_L[y].add(tmp,x);
@@ -226,7 +244,10 @@ public class Board
 		}else
 		{
 			JLabel tmp = new JLabel("");
-			tmp.setMaximumSize(new Dimension((m_boardWidth/16),m_boardHight/21));
+			tmp.setMaximumSize(new Dimension(m_boardWidth/16, m_boardHight/21));
+			tmp.setPreferredSize(new Dimension(m_boardWidth/16, m_boardHight/21));
+			tmp.setMinimumSize(new Dimension(m_boardWidth/16, m_boardHight/21));
+			
 			tmp.setForeground(Color.RED);
 			m_GameBoard_Y_L[x].remove(y);
 			m_GameBoard_Y_L[x].add(tmp,y);
@@ -244,7 +265,10 @@ public class Board
 		if(ship.getAxis() == Ship.X_AXIS)
 		{
 			JLabel shipL = new JLabel(ship.getName(),ship.getImage(ship.getAxis()), JLabel.LEADING);
-			shipL.setMaximumSize(new Dimension(ship.getLength()*(m_boardWidth/16),m_boardHight/21));
+			shipL.setMaximumSize(new Dimension(ship.getLength()*m_boardWidth/16, m_boardHight/21));
+			shipL.setPreferredSize(new Dimension(ship.getLength()*m_boardWidth/16, m_boardHight/21));
+			shipL.setMinimumSize(new Dimension(ship.getLength()*m_boardWidth/16, m_boardHight/21));
+			
 			m_GameBoard_X_L[y].remove(x);
 			m_GameBoard_X_L[y].add(shipL,x);
 			
@@ -256,7 +280,9 @@ public class Board
 		}else
 		{
 			JLabel shipL = new JLabel(ship.getName(),ship.getImage(ship.getAxis()), JLabel.LEADING);
-			shipL.setMaximumSize(new Dimension((m_boardWidth/16),ship.getLength()*m_boardHight/21));
+			shipL.setMaximumSize(new Dimension(m_boardWidth/16, (ship.getLength()*m_boardHight)/21));
+			shipL.setPreferredSize(new Dimension(m_boardWidth/16, (ship.getLength()*m_boardHight)/21));
+			shipL.setMinimumSize(new Dimension(m_boardWidth/16, (ship.getLength()*m_boardHight)/21));
 			m_GameBoard_Y_L[x].remove(y);
 			m_GameBoard_Y_L[x].add(shipL,y);
 			
