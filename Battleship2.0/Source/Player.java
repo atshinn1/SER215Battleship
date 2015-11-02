@@ -163,6 +163,10 @@ public class Player
 	{
 		m_Board.addToTaken(x,y,ship);
 	}
+	public boolean allShipsSet()
+	{
+		return m_Board.getShipCount() == 5;
+	}
 	//Alec: I added this so i can use the getPlayer in game class and write the players name to the client in a print statement
 	//I actually changed my implementation and dont need this but Im gonna leave it just in case someone adds to it in the future
 	public String toString(){

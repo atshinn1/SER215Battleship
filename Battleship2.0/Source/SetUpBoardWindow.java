@@ -21,14 +21,14 @@ public class SetUpBoardWindow
 	private JButton m_BackToMenu_B, m_StartGame_B;
 	private JComboBox<String> m_NumOfPly_CB, m_AIDiff_CB;
 	private JLabel m_Background_L, m_Instructions_L, m_Header_L;
-	private Game m_currentGame;
+	private Game m_CurrentGame;
 	private Player m_CurrentPlayer;
 	private Ship m_CurrentShip;
 	private LoadAssets m_Assets;
 	
     public SetUpBoardWindow(Game game, LoadAssets assets, JFrame window)// constructer
     {
-		m_currentGame = game;
+		m_CurrentGame = game;
 		m_CurrentPlayer = game.getPlayer("Player 1");
 		m_CurrentShip = m_CurrentPlayer.getShip(0);
 		
@@ -126,8 +126,6 @@ public class SetUpBoardWindow
 		m_SetUpBoard_F.pack();
 		
 		m_SetUpBoard_F.setVisible(true);
-		
-		m_OldWindow_F.dispose();
 	}
 	/**addActionListeners
 	* adds ActionListener, which wait till
@@ -189,39 +187,51 @@ public class SetUpBoardWindow
 		}
         public void actionPerformed(ActionEvent event)
         {
-            switch(m_Command)
+			if(m_Command.compareTo("EXIT") == 0)
 			{
-				case "EXIT": System.exit(1);// DOUBLE CHECK WHERE TO SEND...
-				case "UP": 
-						m_CurrentPlayer.updateBoard(m_CurrentShip, m_CurrentShip.getLocation().x(),  m_CurrentShip.getLocation().y()-1);
-						m_Background_L.setSize(new Dimension(m_ScreenWidth-1, m_ScreenHeight-1));
-						m_Background_L.setSize(new Dimension(m_ScreenWidth, m_ScreenHeight));
-						break;
-				case "DOWN": 
-						m_CurrentPlayer.updateBoard(m_CurrentShip, m_CurrentShip.getLocation().x(),  m_CurrentShip.getLocation().y()+1);
-						m_Background_L.setSize(new Dimension(m_ScreenWidth-1, m_ScreenHeight-1));
-						m_Background_L.setSize(new Dimension(m_ScreenWidth, m_ScreenHeight));
-						break;
-				case "LEFT": 
-						m_CurrentPlayer.updateBoard(m_CurrentShip, m_CurrentShip.getLocation().x()-1,  m_CurrentShip.getLocation().y());
-						m_Background_L.setSize(new Dimension(m_ScreenWidth-1, m_ScreenHeight-1));
-						m_Background_L.setSize(new Dimension(m_ScreenWidth, m_ScreenHeight));
-						break;
-				case "RIGHT": 
-						m_CurrentPlayer.updateBoard(m_CurrentShip, m_CurrentShip.getLocation().x()+1,  m_CurrentShip.getLocation().y());
-						m_Background_L.setSize(new Dimension(m_ScreenWidth-1, m_ScreenHeight-1));
-						m_Background_L.setSize(new Dimension(m_ScreenWidth, m_ScreenHeight));
-						break;
-				case "SPACE":
-						m_CurrentPlayer.flipAxis(m_CurrentShip);
-						break;
-				case "ENTER":
-						m_CurrentPlayer.addToTaken(m_CurrentShip.x(),m_CurrentShip.y(),m_CurrentShip);
-						m_CurrentShip = m_CurrentPlayer.getNextShip();
-						m_CurrentPlayer.setNextShip(); 
-						break;
+				System.exit(1);// DOUBLE CHECK WHERE TO SEND...
 			}
-        }
+			if(m_CurrentPlayer.allShipsSet())
+			{
+			    // DOUBLE CHECK IF THEY ARE READY...
+				GameWindow newGame = new GameWindow(m_CurrentGame,m_Assets,m_SetUpBoard_F);
+				m_OldWindow_F.dispose();
+				// DELETE MEMU BUTTONS AND THINGS...
+			}else
+			{
+				switch(m_Command)
+				{
+					case "UP": 
+							m_CurrentPlayer.updateBoard(m_CurrentShip, m_CurrentShip.getLocation().x(),  m_CurrentShip.getLocation().y()-1);
+							m_Background_L.setSize(new Dimension(m_ScreenWidth-1, m_ScreenHeight-1));
+							m_Background_L.setSize(new Dimension(m_ScreenWidth, m_ScreenHeight));
+							break;
+					case "DOWN": 
+							m_CurrentPlayer.updateBoard(m_CurrentShip, m_CurrentShip.getLocation().x(),  m_CurrentShip.getLocation().y()+1);
+							m_Background_L.setSize(new Dimension(m_ScreenWidth-1, m_ScreenHeight-1));
+							m_Background_L.setSize(new Dimension(m_ScreenWidth, m_ScreenHeight));
+							break;
+					case "LEFT": 
+							m_CurrentPlayer.updateBoard(m_CurrentShip, m_CurrentShip.getLocation().x()-1,  m_CurrentShip.getLocation().y());
+							m_Background_L.setSize(new Dimension(m_ScreenWidth-1, m_ScreenHeight-1));
+							m_Background_L.setSize(new Dimension(m_ScreenWidth, m_ScreenHeight));
+							break;
+					case "RIGHT": 
+							m_CurrentPlayer.updateBoard(m_CurrentShip, m_CurrentShip.getLocation().x()+1,  m_CurrentShip.getLocation().y());
+							m_Background_L.setSize(new Dimension(m_ScreenWidth-1, m_ScreenHeight-1));
+							m_Background_L.setSize(new Dimension(m_ScreenWidth, m_ScreenHeight));
+							break;
+					case "SPACE":
+							m_CurrentPlayer.flipAxis(m_CurrentShip);
+							break;
+					case "ENTER":
+							m_CurrentPlayer.addToTaken(m_CurrentShip.x(),m_CurrentShip.y(),m_CurrentShip);
+							m_CurrentShip = m_CurrentPlayer.getNextShip();
+							m_CurrentPlayer.setNextShip();
+							break;
+				}
+			}
+		}
     }
 	/**setKeyBind
 	* maps the key strokes with there actions

@@ -21,6 +21,7 @@ public class LoadAssets
 	private ImageIcon m_StartGame_B, m_Battleship_X, m_Battleship_Y, m_AircraftCarrier_X, m_AircraftCarrier_Y;
 	private ImageIcon m_Cruiser_X, m_Destroyer_X, m_Destroyer_Y, m_Submarine_X,m_Submarine_Y;
 	private ImageIcon m_Cruiser_Y;
+	private ImageIcon m_HitMarker;
 	LoadAssets()
 	{
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();// geting size of screen
@@ -29,11 +30,13 @@ public class LoadAssets
 		boolean X = true;
 		boolean Y = false;
 		
-		m_Board = loadGameImage("GameBoard.jpg",600, 700);
+		m_Board = loadGameImage("GameBoard.jpg", 600, 700);
 		m_BoardBlank = loadGameImage("GameBoardBlank.png",600, 700);
 		m_Instructions = loadGameImage("Instructions.png", ScreenWidth, 100);
 		m_MenuBackground = loadGameImage("MenuBG.jpg", ScreenWidth, ScreenHeight);
 		m_GameBackground = loadGameImage("GameBG.jpg", ScreenWidth, ScreenHeight);
+		
+		m_HitMarker = loadGameImage("HitMarker.png",m_Board.getIconWidth()/16,  m_Board.getIconHeight()/21);
 		
 		m_BackToMainMenu_B = loadButtonImage("BackToMainMenuButton.png");
 		m_Exit_B = loadButtonImage("ExitButton.png");
@@ -72,6 +75,8 @@ public class LoadAssets
 			case "Instructions": return m_Instructions;
 			
 			case "MenuBG": return m_MenuBackground;
+			
+			case "HitMarker": return m_HitMarker;
 			
 			case "BackToMainMenuButton": return m_BackToMainMenu_B;
 			
@@ -117,7 +122,7 @@ public class LoadAssets
 		try 
 		{
 			img = ImageIO.read(new File(path));
-			img = img.getScaledInstance(w, h,  java.awt.Image.SCALE_SMOOTH);
+			img = img.getScaledInstance(w, h,  java.awt.Image.SCALE_AREA_AVERAGING);
 			return new ImageIcon(img);
 		} catch (IOException ex) 
 		{
@@ -131,6 +136,24 @@ public class LoadAssets
 		path = System.getProperty("user.dir");
 		path = path.replace('\\','/');
 		path = path.replaceAll("Source", "Assets/GUI/Buttons/" + name);
+		Image img;
+		
+		try 
+		{
+			img = ImageIO.read(new File(path));
+			return new ImageIcon(img);
+		} catch (IOException ex) 
+		{
+			System.out.println("FIle Not Found\nFile Path: " + path);System.exit(1);
+		}
+		return null;
+	}
+	private ImageIcon loadMarkerImage(String name)
+	{
+		String path = "";
+		path = System.getProperty("user.dir");
+		path = path.replace('\\','/');
+		path = path.replaceAll("Source", "Assets/Markers/" + name);
 		Image img;
 		
 		try 

@@ -1,5 +1,5 @@
 /* 
-Name: Menu Panel 
+Name: Start New Game Window
 Author: Joshua Becker
 Create On: 9/9/15
 Updated On: 9/19/15

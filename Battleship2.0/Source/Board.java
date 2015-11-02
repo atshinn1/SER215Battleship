@@ -16,14 +16,13 @@ import java.util.*;
 
 public class Board
 {	
-	private JLabel  m_GameBoardGrid_L[][], m_GameBoard_Y_P, m_GameBoard_X_P;
+	private JLabel  m_GameBoardGrid_L[][], m_GameBoard_Y_P, m_GameBoard_X_P, m_GameBoardTargets_P;
 	private JPanel m_GameBoards_P;
-	private	JLabel m_GameBoard_X_L[], m_GameBoard_Y_L[], m_GameBoardTargets_L;
+	private	JLabel m_GameBoard_X_L[], m_GameBoard_Y_L[], m_GameBoardTargets_L[];
 	private int m_ScreenHeight, m_ScreenWidth;
-	private FlowLayout m_BoardLayout_X;
-	private SpringLayout m_BoardLayout_Y;
 	private LoadAssets m_Assets;
 	private Player m_CurrentPlayer;
+	private Cursor m_CrossHair_C;
 	private int m_ShipCount;
 	private int m_boardWidth;
 	private int m_boardHight;
@@ -35,7 +34,7 @@ public class Board
 		m_CurrentPlayer = currentPlayer;
 		m_ShipCount = 0;
 	    m_boardHight = m_Assets.getImage("GameBoard").getIconHeight();
-		m_boardWidth = m_Assets.getImage("GameBoard").getIconWidth()+2;
+		m_boardWidth = m_Assets.getImage("GameBoard").getIconWidth();
 		m_HasShip = new boolean [16][21];
 		for(int i = 0; i < 16; i++)
 		{
@@ -49,6 +48,7 @@ public class Board
 
 		fillBoards();
 		
+		m_GameBoards_P.add(m_GameBoardTargets_P);
 		m_GameBoards_P.add(m_GameBoard_Y_P);
 		m_GameBoards_P.add(m_GameBoard_X_P);
 		m_GameBoards_P.add(new JLabel(m_Assets.getImage("GameBoard")));
@@ -77,11 +77,15 @@ public class Board
 	{
 		m_GameBoardGrid_L = new JLabel[21][16];
 		m_GameBoard_Y_L = new JLabel[16];
+		m_GameBoardTargets_L = new JLabel[21];
 		m_GameBoard_X_L = new JLabel[21];
+		
+		Cursor m_CrossHair_C = new Cursor(Cursor.CROSSHAIR_CURSOR);
+		
 		
 		m_GameBoard_Y_P = new JLabel(m_Assets.getImage("GameBoardBlank"));
 		m_GameBoard_X_P = new JLabel(m_Assets.getImage("GameBoardBlank"));
-		m_GameBoardTargets_L = new JLabel(m_Assets.getImage("GameBoardBlank"));
+		m_GameBoardTargets_P = new JLabel(m_Assets.getImage("GameBoardBlank"));
 		m_GameBoards_P = new JPanel();
 	}
 	
@@ -91,6 +95,7 @@ public class Board
 		
 		m_GameBoard_Y_P.setLayout(new GridLayout(1,16,0,0));
 		m_GameBoard_X_P.setLayout(new GridLayout(21,1,0,0));
+		m_GameBoardTargets_P.setLayout(new GridLayout(1,16,0,0));
 		
 		m_GameBoards_P.setLayout(overlay);
 	}
@@ -99,11 +104,13 @@ public class Board
 	{
 		int count = 0;
 		JLabel tmp;
+		JLabel tmp2;
 		for(int y = 0; y < 21; y++)
 		{
 		    m_GameBoard_X_L[y] = new JLabel("");
 			m_GameBoard_X_L[y].setLayout(new BoxLayout(m_GameBoard_X_L[y], BoxLayout.X_AXIS));
 			m_GameBoard_X_L[y].setPreferredSize(new Dimension(m_boardWidth,m_boardHight/16));
+			
 			for(int x = 0; x < 16; x++)
 			{
 				tmp = new JLabel("");
@@ -112,23 +119,67 @@ public class Board
 				m_GameBoard_X_L[y].add(tmp);
 			}
 			m_GameBoard_X_P.add(m_GameBoard_X_L[y]);
+			
 		}
 		for(int x = 0; x < 16; x++)
 		{
 		    m_GameBoard_Y_L[x] = new JLabel("");
 			m_GameBoard_Y_L[x].setLayout(new BoxLayout(m_GameBoard_Y_L[x], BoxLayout.Y_AXIS));
 			m_GameBoard_Y_L[x].setPreferredSize(new Dimension(m_boardWidth/16,m_boardHight));
+			
+		    m_GameBoardTargets_L[x] = new JLabel("");
+			m_GameBoardTargets_L[x].setLayout(new BoxLayout(m_GameBoardTargets_L[x], BoxLayout.Y_AXIS));
+			m_GameBoardTargets_L[x].setPreferredSize(new Dimension(m_boardWidth/16,m_boardHight));
 			for(int y = 0; y < 21; y++)
 			{
 				tmp = new JLabel("");
 				tmp.setMaximumSize(new Dimension(m_boardWidth/16, m_boardHight/21));
+				tmp.setPreferredSize(new Dimension(m_boardWidth/16, m_boardHight/21));
+				tmp.setMinimumSize(new Dimension(m_boardWidth/16, m_boardHight/21));
 				tmp.setForeground(Color.RED);
 				m_GameBoard_Y_L[x].add(tmp);
+				
+				tmp2 = new JLabel("");
+				tmp2.setMaximumSize(new Dimension(m_boardWidth/16, m_boardHight/21));
+			    tmp2.setPreferredSize(new Dimension(m_boardWidth/16, m_boardHight/21));
+				tmp2.setMinimumSize(new Dimension(m_boardWidth/16, m_boardHight/21));
+				tmp2.setForeground(Color.RED);
+				tmp2.addMouseListener(new MouseAction(x, y));
+				m_GameBoardTargets_L[x].add(tmp2);
 			}
 			m_GameBoard_Y_P.add(m_GameBoard_Y_L[x]);
+			m_GameBoardTargets_P.add(m_GameBoardTargets_L[x]);
 		}
 	}
+	
+	class MouseAction extends MouseAdapter
+	{
+		private int m_x;
+		private int m_y;
+		MouseAction(int x , int y)
+		{
+			m_x = x;
+			m_y = y;
+		}
+		@Override
+		public void mouseEntered(java.awt.event.MouseEvent evt) 
+		{
+			if(m_ShipCount >= 5)
+			m_GameBoardTargets_L[m_x].getComponent(m_y).setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
+		}
 
+		@Override
+		public void mouseExited(java.awt.event.MouseEvent evt) 
+		{
+			//if(m_ShipCount > 5)
+		}
+		@Override
+		public void mouseClicked(java.awt.event.MouseEvent evt)
+		{
+			System.out.println("here");
+			((JLabel) m_GameBoardTargets_L[m_x].getComponent(m_y)).setIcon(m_Assets.getImage("HitMarker"));
+		}
+	}
 	public void addNextShip(Ship ship)
 	{
 		int x = 1; int y = 1;
@@ -185,8 +236,6 @@ public class Board
 				((JLabel) m_GameBoard_Y_L[x].getComponent(y-i)).setVisible(true);
 				((JLabel) m_GameBoard_Y_L[x].getComponent(y-i)).setText("");
 			}
-			
-			System.out.println(m_GameBoard_Y_L[x].getComponent(y).getWidth() + " h = " + m_GameBoard_Y_L[x].getComponent(y).getHeight() + " normal: " + (m_boardHight/21));
 		}
 	}
 	
@@ -213,7 +262,6 @@ public class Board
 			
 			for(int i = 1; i < ship.getLength(); i++)
 			{
-				System.out.println("x = " + x + " y + i = "+ (y+i));
 				((JLabel) m_GameBoard_Y_L[x].getComponent(y-i)).setVisible(false);
 				((JLabel) m_GameBoard_Y_L[x].getComponent(y-i)).setText(ship.getName());
 			}
