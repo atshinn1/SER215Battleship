@@ -46,7 +46,7 @@ public class StartNewGameWindow
 	public void createComponents()
 	{
 		String numOfPly[] = {"Select Number Of Players", "2", "3", "4", "5"};
-		String difficulty [] = {"Select Difficulty", "Your Dumb", "Your Still Not Smart" , "Ok You Can Play", "Your Slightly Intelligent", "Ok You are Very Lucky if you win"} ;
+		String difficulty [] = {"Select Difficulty", "ur Dumb", "Your Still Not Smart" , "Ok You Can Play", "You're Slightly Intelligent", "Ok You are Very Lucky if you win"} ;
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();// geting size of screen
 		m_ScreenWidth = gd.getDisplayMode().getWidth();
 		m_ScreenHeight = gd.getDisplayMode().getHeight();
