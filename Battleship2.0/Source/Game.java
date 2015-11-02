@@ -20,7 +20,7 @@ public class Game
 	{
 		m_Assets = assets;
 		m_difficulty = difficulty;
-		m_Players = new Player[2];//change this ...
+		m_Players = new Player[numOfPlys+1];
 		m_NumOfGames = 0;
 		fillPlayers();
 	}
@@ -94,11 +94,9 @@ public class Game
 	private void fillPlayers()
 	{
 		m_Players[0] = new Player("Player 1", true, m_Assets);
-		m_Players[1] = new Player("Player 2", false, m_Assets);
-		createAiBoard();
-	}
-	private void createAiBoard()
-	{
-		m_Players[1].addAIShips();
+		for(int i = 1; i < m_Players.length;i++)
+		{
+			m_Players[i] = new Player("Player" + (i+1), false, m_Assets);
+		}
 	}
 }

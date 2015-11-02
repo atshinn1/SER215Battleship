@@ -138,14 +138,11 @@ public class Player
 		if(m_Board.getShipCount() < 5)
 		{
 			m_Board.addNextShip(getShip(m_Board.getShipCount()));
-		}else
-		{
-			m_Board.showTargetBoard();
 		}
 	}
 	/**flipAxis
 	* flips the axis of the ship and updates the board;
-	* @param Ship: ship obj to be flipped.
+	* @param Ship: ship obj to be fliped.
 	**/
 	public void flipAxis(Ship ship)
 	{
@@ -159,14 +156,12 @@ public class Player
 			ship.flipAxis();
 			m_Board.showShip(ship,ship.x(),ship.y());
 		}
+		
+		System.out.println("x = " + ship.getLocation().x() + "  y = " + ship.getLocation().y());
 	}
 	public void addToTaken(int x, int y, Ship ship)
 	{
 		m_Board.addToTaken(x,y,ship);
-	}
-	public void addAIShips()
-	{
-		m_Board.addAIShips();
 	}
 	public boolean allShipsSet()
 	{
