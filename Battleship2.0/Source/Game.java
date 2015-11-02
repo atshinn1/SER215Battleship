@@ -20,7 +20,7 @@ public class Game
 	{
 		m_Assets = assets;
 		m_difficulty = difficulty;
-		m_Players = new Player[numOfPlys+1];
+		m_Players = new Player[2];// change this later...
 		m_NumOfGames = 0;
 		fillPlayers();
 	}
@@ -44,8 +44,8 @@ public class Game
 	}
 	/**getPlayer
 	* gets the player
-	* @param String: name of wunted player;
-	* @return Player: wunted Player object;
+	* @param String: name of wanted player;
+	* @return Player: wanted Player object;
 	**/
 	
 	public Player getPlayer(String name)
@@ -94,9 +94,29 @@ public class Game
 	private void fillPlayers()
 	{
 		m_Players[0] = new Player("Player 1", true, m_Assets);
-		for(int i = 1; i < m_Players.length;i++)
-		{
-			m_Players[i] = new Player("Player" + (i+1), false, m_Assets);
-		}
+		m_Players[1] = new Player("AI", false, m_Assets);
+		fillAI();
+	}
+	public void fillAI()
+	{
+		Ship ship = m_Players[1].getNextShip();
+		m_Players[1].setNextShip();
+		m_Players[1].updateBoard(ship, 2,2);
+		
+		ship = m_Players[1].getNextShip();
+		m_Players[1].setNextShip();
+		m_Players[1].updateBoard(ship, 3,3);
+		
+		ship = m_Players[1].getNextShip();
+		m_Players[1].setNextShip();
+		m_Players[1].updateBoard(ship, 4,4);
+		
+		m_Players[1].setNextShip();
+		m_Players[1].updateBoard(ship, 5,5);
+		ship = m_Players[1].getNextShip();
+		
+		m_Players[1].setNextShip();
+		m_Players[1].updateBoard(ship, 6,6);
+		ship = m_Players[1].getNextShip();
 	}
 }
