@@ -215,11 +215,24 @@ public class Board
 	{
 		if(!isOutOfBounds(x, y, ship) && !hasShip(x,y,ship))
 		{
-			hideShip(ship, ship.x(), ship.y());//hid ship at old location
+			hideShip(ship, ship.x(), ship.y());// Hide ship at old location
 				
-			showShip(ship, x, y);//show ship at new location
+			showShip(ship, x, y);//Show ship at new location
 				
 			ship.setLocation(x,y);
+		}
+		
+		/* 
+		SKIP OVER SHIP FUNCTIONALITY (Need to add alternate directions. Atm, this only works from top to bottom)
+		*/
+		else if(!isOutOfBounds(x, y, ship) && hasShip(x,y,ship)){ // If the new location is not out of bounds but there is another ship there...
+			
+			if(!isOutOfBounds(x+1,y+1, ship) && !hasShip(x+1,y+1,ship)){
+				hideShip(ship, ship.x(), ship.y());
+				showShip(ship, x+1, y+1);
+				ship.setLocation(x+1,y+1);
+			}
+		
 		}
 	}
 

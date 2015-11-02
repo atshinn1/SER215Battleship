@@ -24,7 +24,7 @@ public class StartNewGameWindow
 	private JLabel m_Background_L;
 	private LoadAssets m_Assets;
 	
-    public StartNewGameWindow(JFrame window, LoadAssets assets)// constructer
+    public StartNewGameWindow(JFrame window, LoadAssets assets)// Constructor
     {
 		m_Assets = assets;
 		
