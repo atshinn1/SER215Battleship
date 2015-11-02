@@ -53,6 +53,7 @@ public class Board
 		fillBoards();
 		
 		m_GameBoards_P.add(m_GameBoardTargets_P);
+		m_GameBoardTargets_P.setVisible(false);
 		m_GameBoards_P.add(m_GameBoard_Y_P);
 		m_GameBoards_P.add(m_GameBoard_X_P);
 		m_GameBoards_P.add(new JLabel(m_Assets.getImage("GameBoard")));
@@ -174,6 +175,7 @@ public class Board
 		@Override
 		public void mouseEntered(java.awt.event.MouseEvent evt) 
 		{
+			System.out.println("hered");
 			if(m_ShipCount >= 5)
 			m_GameBoardTargets_L[m_x].getComponent(m_y).setCursor(m_CrossHair_C);
 		}
@@ -210,6 +212,19 @@ public class Board
 		m_ShipCount++;
 		
 		
+	}
+	public void addAIShips()
+	{
+		addNextShip(m_CurrentPlayer.getNextShip());
+		updateBoard(m_CurrentPlayer.getNextShip(),5,5);
+		addNextShip(m_CurrentPlayer.getNextShip());
+		updateBoard(m_CurrentPlayer.getNextShip(),6,6);
+		addNextShip(m_CurrentPlayer.getNextShip());
+		updateBoard(m_CurrentPlayer.getNextShip(),7,7);
+		addNextShip(m_CurrentPlayer.getNextShip());
+		updateBoard(m_CurrentPlayer.getNextShip(),8,8);
+		addNextShip(m_CurrentPlayer.getNextShip());
+		//updateBoard(m_CurrentPlayer.getNextShip(),9,8);
 	}
 	public void updateBoard(Ship ship, int x, int y)
 	{
@@ -353,5 +368,9 @@ public class Board
 				m_HasShip[x][y-j] =true;
 			}
 		}
+	}
+	public void showTargetBoard()
+	{
+		m_GameBoardTargets_P.setVisible(true);
 	}
 }

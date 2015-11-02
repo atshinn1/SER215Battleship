@@ -21,6 +21,7 @@ public class GameWindow
 	private JButton m_Options_B, m_Exit_B;
 	private JComboBox<String> m_NumOfPly_CB, m_AIDiff_CB;
 	private JLabel m_Background_L, m_Instructions_L, m_Header_L;
+	private JPanel m_GameBoards_P;
 	private Game m_CurrentGame;
 	private Player m_CurrentPlayer;
 	private Ship m_CurrentShip;
@@ -30,7 +31,7 @@ public class GameWindow
     {
 		m_CurrentGame = game;
 		m_CurrentPlayer = game.getPlayer("Player 1");
-		m_CurrentShip = m_CurrentPlayer.getShip(0);
+		m_CurrentPlayer.setTargetBoard();
 		
 		m_OldWindow_F = window;
 		
@@ -57,6 +58,7 @@ public class GameWindow
 		m_Background_L = new JLabel(m_Assets.getImage("GameBG"));
 		m_Instructions_L = new JLabel(m_Assets.getImage("Instructions"));
 		m_Header_L = new JLabel(m_Assets.getImage("Instructions"));
+		m_GameBoards_P = new JPanel();
 		
 		m_Options_B = new JButton("Options");
 		
@@ -70,9 +72,12 @@ public class GameWindow
 		m_Game_F.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		m_Background_L.setLayout(new BoxLayout(m_Background_L, BoxLayout.Y_AXIS));
+		m_GameBoards_P.setLayout(new BoxLayout(m_GameBoards_P, BoxLayout.X_AXIS));
 		m_Instructions_L.setLayout(new BoxLayout(m_Instructions_L, BoxLayout.Y_AXIS));
 		
 		m_Header_L.setPreferredSize(new Dimension(m_ScreenWidth, 20));
+		m_GameBoards_P.setPreferredSize(new Dimension(1200, 700));
+		//m_GameBoards_P.setMaximumSize(new Dimension(m_ScreenWidth, 700));
 		
 		m_Game_F.setUndecorated(true);
         m_Game_F.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
@@ -85,7 +90,6 @@ public class GameWindow
 	public void addElements()
 	{
 		setKeyBind();
-		m_Background_L.setForeground(Color.WHITE);
 		
 		JLabel instructions[] = {new JLabel("Use the Arrow Keys to move the ship"), new JLabel("Press the Space Bar to change the oriantation"), 
 								 new JLabel("Press Enter to Place the Ship"), new JLabel("Press Esc to quit")};
@@ -105,13 +109,16 @@ public class GameWindow
 		m_Instructions_L.add(instructions[2]);
 		m_Instructions_L.add(instructions[3]);
 		
-		m_CurrentPlayer.setNextShip();
 		JPanel board = m_CurrentPlayer.getBoard();
 		
 		board.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
+		m_GameBoards_P.setAlignmentX(Component.CENTER_ALIGNMENT);
 		m_Instructions_L.setAlignmentX(Component.CENTER_ALIGNMENT);
 		m_Header_L.setAlignmentX(Component.CENTER_ALIGNMENT);
-		System.out.println("w= " + m_Header_L.getWidth() + " h = " + m_Header_L.getHeight());
+		
+		m_GameBoards_P.add(m_CurrentPlayer.getBoard());
+		//m_GameBoards_P.add(m_CurrentGame.getPlayer("Player 2").getBoard());
 		
 		m_Background_L.add(m_Header_L);
 		m_Background_L.add(new JLabel("\n"));
