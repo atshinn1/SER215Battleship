@@ -176,8 +176,8 @@ public class Board
 		@Override
 		public void mouseEntered(java.awt.event.MouseEvent evt) 
 		{
-			if(m_ShipCount >= 5)
-			m_GameBoardTargets_L[m_x].getComponent(m_y).setCursor(m_CrossHair_C);
+			if(m_CurrentPlayer.allShipsSet())
+			m_GameBoardTargets_L[m_x].getComponent(m_y).setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
 		}
 
 		@Override

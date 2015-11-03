@@ -55,7 +55,7 @@ public class GameWindow
 		m_ScreenHeight = gd.getDisplayMode().getHeight();
 		
 		m_ActionConsole_TA = new JTextArea("", 100, 100);
-		m_Chat_TA = new JTextArea("\t\tPress 't' to talk", 50, 4);
+		m_Chat_TA = new JTextArea("Press 't' to talk", 50, 4);
 		
 		m_Background_L = new JLabel(m_Assets.getImage("GameBG"));
 		m_Footer_L = new JLabel(m_Assets.getImage("GameBoardBlank"));
