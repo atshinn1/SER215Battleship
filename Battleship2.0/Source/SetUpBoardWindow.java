@@ -87,7 +87,7 @@ public class SetUpBoardWindow
 		setKeyBind();
 		m_Background_L.setForeground(Color.WHITE);
 		
-		JLabel instructions[] = {new JLabel("Use the Arrow Keys to move the ship"), new JLabel("Press the Space Bar to change the oriantation"), 
+		JLabel instructions[] = {new JLabel("Use the Arrow Keys to move the ship"), new JLabel("Press the Space Bar to change the orientation"), 
 								 new JLabel("Press Enter to Place the Ship"), new JLabel("Press Esc to quit")};
 		instructions[0].setAlignmentX(Component.CENTER_ALIGNMENT);
 		instructions[1].setAlignmentX(Component.CENTER_ALIGNMENT);
