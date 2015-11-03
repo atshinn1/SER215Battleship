@@ -346,13 +346,13 @@ public class Board
 	{
 		if(ship.getAxis() == Ship.X_AXIS)
 		{
-			if(y > m_NUM_OF_ROWS-1 || x > (m_NUM_OF_COL - ship.getLength()) || x < 0 || y < 0)
+			if(y > m_NUM_OF_ROWS || x > (m_NUM_OF_COL - ship.getLength()) || x < 0 || y < 0)
 			{
 				return true;
 			}
 		}else
 		{
-			if(y > m_NUM_OF_ROWS-1 || x > m_NUM_OF_COL-1 || y < (ship.getLength()) || x < 0 || y < 0)
+			if(y > m_NUM_OF_ROWS || x > m_NUM_OF_COL || y < (ship.getLength()) || x < 0 || y < 0)
 			{
 				return true;
 			}
