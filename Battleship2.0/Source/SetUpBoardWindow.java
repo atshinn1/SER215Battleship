@@ -87,7 +87,7 @@ public class SetUpBoardWindow
 		setKeyBind();
 		m_Background_L.setForeground(Color.WHITE);
 		
-		JLabel instructions[] = {new JLabel("Use the Arrow Keys to move the ship"), new JLabel("Press the Space Bar to change the oriantation"), 
+		JLabel instructions[] = {new JLabel("Use the Arrow Keys to move the ship"), new JLabel("Press the Space Bar to change the orientation"), 
 								 new JLabel("Press Enter to Place the Ship"), new JLabel("Press Esc to quit")};
 		instructions[0].setAlignmentX(Component.CENTER_ALIGNMENT);
 		instructions[1].setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -221,7 +221,6 @@ public class SetUpBoardWindow
 							m_CurrentPlayer.addToTaken(m_CurrentShip.x(),m_CurrentShip.y(),m_CurrentShip);
 							m_CurrentShip = m_CurrentPlayer.getNextShip();
 							m_CurrentPlayer.setNextShip();
-							System.out.println(m_CurrentPlayer.get)
 							if(m_CurrentPlayer.allShipsSet())
 							{
 								// DOUBLE CHECK IF THEY ARE READY...

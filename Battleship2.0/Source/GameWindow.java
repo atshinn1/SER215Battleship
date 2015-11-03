@@ -20,6 +20,7 @@ public class GameWindow
 	private int m_ScreenWidth, m_ScreenHeight;
 	private JButton m_Options_B, m_Exit_B;
 	private JLabel m_Background_L, m_Footer_L, m_Header_L;
+	private JTextArea m_ActionConsole_TA, m_Chat_TA;
 	private JLabel m_CurrentPlayerStats_L, m_OtherPlayerStats_L;
 	private JLabel m_Boards_P;
 	private Game m_CurrentGame;
@@ -53,8 +54,11 @@ public class GameWindow
 		m_ScreenWidth = gd.getDisplayMode().getWidth();
 		m_ScreenHeight = gd.getDisplayMode().getHeight();
 		
+		m_ActionConsole_TA = new JTextArea("", 100, 100);
+		m_Chat_TA = new JTextArea("\t\tPress 't' to talk", 50, 4);
+		
 		m_Background_L = new JLabel(m_Assets.getImage("GameBG"));
-		m_Footer_L = new JLabel(m_Assets.getImage("Instructions"));
+		m_Footer_L = new JLabel(m_Assets.getImage("GameBoardBlank"));
 		m_Header_L = new JLabel(m_Assets.getImage("Instructions"));
 		
 		m_CurrentPlayerStats_L = new JLabel("");
@@ -74,7 +78,7 @@ public class GameWindow
 		m_Game_F.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		m_Background_L.setLayout(new BoxLayout(m_Background_L, BoxLayout.Y_AXIS));
-		m_Footer_L.setLayout(new GridLayout(1,2,0,0));
+		m_Footer_L.setLayout(new GridLayout(1,2,(m_ScreenWidth -(m_CurrentPlayer.getBoard().getWidth()*2))/3,0));
 		m_Header_L.setLayout(new GridLayout(1,2,0,0));
 		
 		FlowLayout layout = new FlowLayout();
@@ -82,11 +86,25 @@ public class GameWindow
 		
 		m_Boards_P.setLayout(layout);
 		
-		m_Footer_L.setPreferredSize(new Dimension(m_ScreenWidth, 40));
-		m_Footer_L.setMaximumSize(new Dimension(m_ScreenWidth, 40));
+		m_Footer_L.setPreferredSize(new Dimension(m_ScreenWidth - 200, 100));
+		m_Footer_L.setMaximumSize(new Dimension(m_ScreenWidth - 200, 100));
 		
 		m_Header_L.setPreferredSize(new Dimension(m_ScreenWidth, 100));
 		m_Header_L.setMaximumSize(new Dimension(m_ScreenWidth, 100));
+		
+		m_ActionConsole_TA.setPreferredSize(new Dimension(m_ScreenWidth/4, 100));
+		m_ActionConsole_TA.setMaximumSize(new Dimension(m_ScreenWidth/4, 100));
+		m_ActionConsole_TA.setEditable(false);
+		m_ActionConsole_TA.setAlignmentX(Component.CENTER_ALIGNMENT);
+		m_ActionConsole_TA.setBackground(new Color(4, 9, 15));
+		m_ActionConsole_TA.setForeground(Color.WHITE);
+		
+		m_Chat_TA.setPreferredSize(new Dimension(m_ScreenWidth/4, 100));
+		m_Chat_TA.setMaximumSize(new Dimension(m_ScreenWidth/4, 100));
+		m_Chat_TA.setEditable(false);
+		m_Chat_TA.setAlignmentX(Component.CENTER_ALIGNMENT);
+		m_Chat_TA.setBackground(new Color(4, 9, 15));
+		m_Chat_TA.setForeground(Color.WHITE);
 		
 		m_CurrentPlayerStats_L.setLayout(new BoxLayout(m_CurrentPlayerStats_L, BoxLayout.Y_AXIS));
 		m_OtherPlayerStats_L.setLayout(new BoxLayout(m_OtherPlayerStats_L, BoxLayout.Y_AXIS));
@@ -99,6 +117,8 @@ public class GameWindow
 		m_Game_F.setUndecorated(true);
         m_Game_F.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
 		m_Game_F.setSize(new Dimension(m_ScreenWidth,m_ScreenHeight));
+		
+		updateActionConsole("Waiting for " + m_CurrentPlayer.getName() + " To Take Turn");
 	}
 	/**addElements
 	* add components to panels and
@@ -106,6 +126,9 @@ public class GameWindow
 	**/
 	public void addElements()
 	{
+		JLabel label = new JLabel("CHAT");
+		label.setForeground(Color.WHITE);
+		
 		setKeyBind();
 		m_Background_L.setForeground(Color.WHITE);
 		
@@ -124,8 +147,14 @@ public class GameWindow
 		m_Header_L.add(updatePlayerStats(m_CurrentPlayer,m_CurrentPlayerStats_L));
 		m_Header_L.add(updatePlayerStats(m_CurrentGame.getPlayer("AI"),m_OtherPlayerStats_L));
 		
-		m_Footer_L.add(new JLabel("GAME WINDOW"));
-		m_Footer_L.add(new JLabel("GAME WINDOW"));
+		//m_Footer_L.add(label);
+		m_Footer_L.add(m_Chat_TA);
+		
+		label = new JLabel("ACTION CONSOLE");
+		label.setForeground(Color.WHITE);
+		
+		//m_Footer_L.add(label);
+		m_Footer_L.add(m_ActionConsole_TA);
 		
 		m_Background_L.add(m_Header_L);
 		m_Background_L.add(new JLabel("\n"));
@@ -248,5 +277,17 @@ public class GameWindow
 		stats.add(tmp);
 		
 		return stats;
+	}
+	public void updateChatConsole(Player player, String message)
+	{
+		m_Chat_TA.append("\n\t\t"+ player.getName() + " says " + message + "\n");
+	}
+	public void updateChatConsole(String message)
+	{
+		m_Chat_TA.append("\n\t\t"+ m_CurrentPlayer.getName() + " says " + message + "\n");
+	}
+	public void updateActionConsole(String message)
+	{
+		m_ActionConsole_TA.append("\t" + message + "\n");
 	}
 }
