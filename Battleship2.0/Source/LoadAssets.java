@@ -31,14 +31,14 @@ public class LoadAssets
 		boolean X = true;
 		boolean Y = false;
 		
-		m_Board = loadGameImage("GameBoard.jpg", 600, 700);
-		m_BoardBlank = loadGameImage("GameBoardBlank.png",600, 700);
+		m_Board = loadGameImage("Grid6.png", 576, 648);
+		m_BoardBlank = loadGameImage("GameBoardBlank.png",576, 648);
 		m_Instructions = loadGameImage("Instructions.png", ScreenWidth, 100);
 		m_MenuBackground = loadGameImage("MenuBG.jpg", ScreenWidth, ScreenHeight);
-		m_GameBackground = loadGameImage("GameBG.jpg", ScreenWidth, ScreenHeight);
+		m_GameBackground = loadGameImage("GameBG2.png", ScreenWidth, ScreenHeight);
 		
-		m_HitMarker = loadGameImage("HitMarker.png",m_Board.getIconWidth()/16,  m_Board.getIconHeight()/21);
-		m_Target = loadGameImage("Target.png",m_Board.getIconWidth()/16,  m_Board.getIconHeight()/21);
+		m_HitMarker = loadGameImage("HitMarker.png",m_Board.getIconWidth()/16,  m_Board.getIconHeight()/18);
+		m_Target = loadGameImage("Target.png",m_Board.getIconWidth()/16,  m_Board.getIconHeight()/18);
 		m_Cursor = getShipImages("Battleship.png", Ship.BATTLESHIP_LENGTH, false);
 		
 		m_BackToMainMenu_B = loadButtonImage("BackToMainMenuButton.png");
@@ -182,7 +182,7 @@ public class LoadAssets
 		path = path.replace('\\','/');
 		path = path.replaceAll("Source", "Assets/Ships/" + name);
 		Image img;
-		int height = m_Board.getIconHeight()/21;
+		int height = m_Board.getIconHeight()/18;
 		int width = m_Board.getIconWidth()/16;
 		
 		if(orientation)
@@ -218,7 +218,7 @@ public class LoadAssets
 		path = path.replace('\\','/');
 		path = path.replaceAll("Source", "Assets/Ships/" + name);
 		Image img;
-		int height = m_Board.getIconHeight()/21;
+		int height = m_Board.getIconHeight()/18;
 		int width = m_Board.getIconWidth()/16;
 		
 		if(orientation)
