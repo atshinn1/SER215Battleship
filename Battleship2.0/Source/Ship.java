@@ -24,7 +24,7 @@ public class Ship
 	private String m_Name;
 	private int m_Length;
 	private int m_Lives;
-	private ImageIcon image;
+	private ImageIcon image_X,image_Y;
 	private LoadAssets m_Assets;
 	private boolean m_Orientation;
 	private Location m_Location;
@@ -77,8 +77,9 @@ public class Ship
 		m_Location = new Location(1,1);
 		m_Orientation = Ship.X_AXIS;
 		
-		image = m_Assets.getImage(name);
-		if(image == null)
+		image_X = m_Assets.getImage(name + "_X");
+		image_Y = m_Assets.getImage(name + "_Y");
+		if(image_X == null || image_Y == null)
 		{
 			System.out.println(name + " was not found");
 		}
@@ -88,7 +89,10 @@ public class Ship
 	{
 		return m_Name;
 	}
-	
+	public boolean getAxis()
+	{
+		return m_Orientation;
+	}
 	public int getLength()
 	{
 		return m_Length;
@@ -102,11 +106,25 @@ public class Ship
 	{
 		m_Lives--;
 	}
-	public ImageIcon getImage()
+	public int x()
 	{
-		return image;
+		return m_Location.m_x;
 	}
-	
+	public int y()
+	{
+		return m_Location.m_y;
+	}
+	public ImageIcon getImage(boolean axis)
+	{
+		if(axis == Ship.X_AXIS)
+		{
+			return image_X;
+		}else
+		{
+			return image_Y;
+		}
+		
+	}
 	public Location getLocation()
 	{
 		return m_Location;
@@ -114,6 +132,21 @@ public class Ship
 	public void setLocation(int x, int y)
 	{
 		m_Location.setLocation(x,y);
+	}
+	public void setAxis(boolean axis)
+	{
+		m_Orientation = axis;
+	}
+	public void flipAxis()
+	{
+		if(m_Orientation)
+		{
+			m_Orientation = false;
+		}else
+		{
+			m_Orientation = true;
+		}
+		
 	}
 	public void reset()
 	{

@@ -1,5 +1,5 @@
 /* 
-Name: Menu Panel 
+Name: Start New Game Window
 Author: Joshua Becker
 Create On: 9/9/15
 Updated On: 9/19/15
@@ -24,7 +24,7 @@ public class StartNewGameWindow
 	private JLabel m_Background_L;
 	private LoadAssets m_Assets;
 	
-    public StartNewGameWindow(JFrame window, LoadAssets assets)// constructer
+    public StartNewGameWindow(JFrame window, LoadAssets assets)// Constructor
     {
 		m_Assets = assets;
 		
@@ -37,8 +37,6 @@ public class StartNewGameWindow
 		addActionListeners();
 		
 		addElements();
-		
-		m_GameSetUpFrame.setVisible(false);
 	}
 	/**createComponents
 	* creates components and gives them
@@ -48,7 +46,7 @@ public class StartNewGameWindow
 	public void createComponents()
 	{
 		String numOfPly[] = {"Select Number Of Players", "2", "3", "4", "5"};
-		String difficulty [] = {"Select Difficulty", "Your Dumb", "Your Still Not Smart" , "Ok You Can Play", "Your Slightly Intelligent", "Ok You are Very Lucky if you win"} ;
+		String difficulty [] = {"Select Difficulty", "ur Dumb", "Your Still Not Smart" , "Ok You Can Play", "You're Slightly Intelligent", "Ok You are Very Lucky if you win"} ;
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();// geting size of screen
 		m_ScreenWidth = gd.getDisplayMode().getWidth();
 		m_ScreenHeight = gd.getDisplayMode().getHeight();
@@ -151,10 +149,9 @@ public class StartNewGameWindow
 					break;
 				case "StartGame":
 						/*Loading Screen...*/
-						m_GameSetUpFrame.dispose();
-						m_StartNewGameFrame.dispose();
 						Game game = new Game(m_AIDiff_CB.getSelectedIndex(), m_NumOfPly_CB.getSelectedIndex(), m_Assets);
-						SetUpBoardWindow newGame = new SetUpBoardWindow(game, m_Assets);
+						SetUpBoardWindow newGame = new SetUpBoardWindow(game, m_Assets, m_StartNewGameFrame);
+						m_GameSetUpFrame.dispose();
 				// create default error message
 			}
 		}  

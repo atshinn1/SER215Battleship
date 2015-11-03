@@ -14,6 +14,7 @@ public class Player
 	private int m_Losses;
 	private LoadAssets m_Assets;
 	private Board m_Board;
+	private int m_ShipsPlaced;
 	public Ship m_AirCarr;
 	public Ship m_Battleship;
 	public Ship m_Sub;
@@ -32,15 +33,16 @@ public class Player
 		m_Type = type;
 		m_Losses = 0;
 		m_Wins = 0;
-		m_Board = new Board(m_Assets);
+		m_ShipsPlaced = 0;
 		m_AirCarr = new Ship("AircraftCarrier", Ship.CARRIER_LENGTH, m_Assets);
 		m_Battleship = new Ship("Battleship", Ship.BATTLESHIP_LENGTH, m_Assets);
 		m_Sub = new Ship("Submarine", Ship.SUBMARINE_LENGTH, m_Assets);
 		m_Cruiser = new Ship("Cruiser", Ship.CRUISER_LENGTH, m_Assets);
 		m_Destoyer = new Ship("Destroyer", Ship.DESTROYER_LENGTH, m_Assets);
+		m_Board = new Board(m_Assets, this);
 	}
 	
-	public JLabel getBoard()
+	public JPanel getBoard()
 	{
 		return m_Board.getBoard();
 	}
@@ -140,13 +142,37 @@ public class Player
 			m_Board.addNextShip(getShip(m_Board.getShipCount()));
 		}
 	}
-
+	/**flipAxis
+	* flips the axis of the ship and updates the board;
+	* @param Ship: ship obj to be flipped.
+	**/
+	public void flipAxis(Ship ship)
+	{
+		m_Board.hideShip(ship,ship.x(),ship.y());
+		ship.flipAxis();
+		if(!m_Board.isOutOfBounds(ship.x(),ship.y(), ship) && !m_Board.hasShip(ship.x(),ship.y(),ship))
+		{
+			m_Board.showShip(ship,ship.x(),ship.y());
+		}else
+		{
+			ship.flipAxis();
+			m_Board.showShip(ship,ship.x(),ship.y());
+		}
+		
+		System.out.println("x = " + ship.getLocation().x() + "  y = " + ship.getLocation().y());
+	}
+	public void addToTaken(int x, int y, Ship ship)
+	{
+		m_Board.addToTaken(x,y,ship);
+		m_ShipsPlaced++;
+	}
+	public boolean allShipsSet()
+	{
+		return m_ShipsPlaced == 5;
+	}
 	//Alec: I added this so i can use the getPlayer in game class and write the players name to the client in a print statement
 	//I actually changed my implementation and dont need this but Im gonna leave it just in case someone adds to it in the future
 	public String toString(){
 		return m_Name;
 	}
-
-
-
 }
