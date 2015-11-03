@@ -215,11 +215,22 @@ public class Board
 	}
 	public void updateBoard(Ship ship, int x, int y)
 	{
+		String direction = "";
+		// Determining direction
+		if(x == ship.x() + 1)
+			direction = "RIGHT";
+		if(x == ship.x() - 1)
+			direction = "LEFT";
+		if(y == ship.y() - 1)
+			direction = "UP";
+		if(y == ship.y() + 1)
+			direction = "DOWN";
+		
 		if(!isOutOfBounds(x, y, ship) && !hasShip(x,y,ship))
 		{
-			hideShip(ship, ship.x(), ship.y());// Hide ship at old location
+			hideShip(ship, ship.x(), ship.y()); // Hide ship at old location
 				
-			showShip(ship, x, y);//Show ship at new location
+			showShip(ship, x, y); //Show ship at new location
 				
 			ship.setLocation(x,y);
 		}
@@ -229,10 +240,33 @@ public class Board
 		*/
 		else if(!isOutOfBounds(x, y, ship) && hasShip(x,y,ship)){ // If the new location is not out of bounds but there is another ship there...
 			
-			if(!isOutOfBounds(x+1,y+1, ship) && !hasShip(x+1,y+1,ship)){
-				hideShip(ship, ship.x(), ship.y());
-				showShip(ship, x+1, y+1);
-				ship.setLocation(x+1,y+1);
+			if(direction == "UP"){
+				if(!isOutOfBounds(x,y-1, ship) && !hasShip(x,y-1,ship)){
+					hideShip(ship, ship.x(), ship.y());
+					showShip(ship, x, y-1);
+					ship.setLocation(x,y-1);
+				}
+			}
+			if(direction == "DOWN"){
+				if(!isOutOfBounds(x,y+1, ship) && !hasShip(x,y+1,ship)){
+					hideShip(ship, ship.x(), ship.y());
+					showShip(ship, x, y+1);
+					ship.setLocation(x,y+1);
+				}
+			}	
+			if(direction == "RIGHT"){
+				if(!isOutOfBounds(x+1,y, ship) && !hasShip(x+1,y,ship)){
+					hideShip(ship, ship.x(), ship.y());
+					showShip(ship, x+1, y);
+					ship.setLocation(x+1,y);
+				}
+			}
+			if(direction == "LEFT"){
+				if(!isOutOfBounds(x-1,y, ship) && !hasShip(x-1,y,ship)){
+					hideShip(ship, ship.x(), ship.y());
+					showShip(ship, x-1, y);
+					ship.setLocation(x-1,y);
+				}
 			}
 		
 		}

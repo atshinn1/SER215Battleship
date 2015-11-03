@@ -221,7 +221,6 @@ public class SetUpBoardWindow
 							m_CurrentPlayer.addToTaken(m_CurrentShip.x(),m_CurrentShip.y(),m_CurrentShip);
 							m_CurrentShip = m_CurrentPlayer.getNextShip();
 							m_CurrentPlayer.setNextShip();
-							System.out.println(m_CurrentPlayer.get)
 							if(m_CurrentPlayer.allShipsSet())
 							{
 								// DOUBLE CHECK IF THEY ARE READY...
