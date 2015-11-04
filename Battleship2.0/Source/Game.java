@@ -16,6 +16,7 @@ public class Game
 	private GameWindow m_GameWindow;
 	private JFrame m_OldWindow;
 	private LoadAssets m_Assets;
+	private Location m_TargetLoc[];
 	
 	Game()
 	{
@@ -26,9 +27,10 @@ public class Game
 		m_Assets = assets;
 		m_difficulty = difficulty;
 		m_Players = new Player[2];// change this later...
+		fillPlayers();
 		m_CurrentPlayerIndex = 0;
 		m_NumOfGames = 0;
-		fillPlayers();
+		m_TargetLoc = new Location[5];
 	}
 	
 	public void startGame(JFrame oldWindow)
@@ -152,8 +154,11 @@ public class Game
 	{
 		System.out.println(m_CurrentPlayer.getNumOfSelectedTargets() + " Targets: Name: " + m_CurrentPlayer.getName());
 	}
-	public void PlayerSelectedTarget()
+	public void PlayerSelectedTarget(int x,int y)
 	{
-		
+		m_TargetLoc[m_CurrentPlayer.getNumOfSelectedTargets()-1] = new Location(x,y);
+		m_GameWindow.updateActionConsole(m_CurrentPlayer.getName() + ":  Selected Target...\n\t" +
+										 m_CurrentPlayer.getName() + ": Has " + (5 - m_CurrentPlayer.getNumOfSelectedTargets()) + " Left");
+		System.out.println(m_CurrentPlayer.getNumOfSelectedTargets() + " num of targets");
 	}
 }
