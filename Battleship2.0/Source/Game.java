@@ -4,12 +4,17 @@ Author: Joshua Becker
 Create On: 10/26/15
 Contributors:
 ***********************/
+import javax.swing.*;
 
 public class Game
 {
 	private Player m_Players[];
+	private Player m_CurrentPlayer;
+	private int m_CurrentPlayerIndex;
 	private int m_difficulty;
 	private int m_NumOfGames;
+	private GameWindow m_GameWindow;
+	private JFrame m_OldWindow;
 	private LoadAssets m_Assets;
 	
 	Game()
@@ -21,8 +26,15 @@ public class Game
 		m_Assets = assets;
 		m_difficulty = difficulty;
 		m_Players = new Player[2];// change this later...
+		m_CurrentPlayerIndex = 0;
 		m_NumOfGames = 0;
 		fillPlayers();
+	}
+	
+	public void startGame(JFrame oldWindow)
+	{
+		m_OldWindow = oldWindow;
+		m_GameWindow = new GameWindow(this, m_Assets, m_OldWindow);
 	}
 	/**getNumOfPlys
 	* gets the number of players
@@ -87,14 +99,20 @@ public class Game
 			m_Players[i].resetShips();
 		}
 	}
+	
+	public Player getCurrentPlayer()
+	{
+		return m_CurrentPlayer;
+	}
 
 	/**TEMP METHOD fillPlayers
 	* fillPlayers with some value
 	**/
 	private void fillPlayers()
 	{
-		m_Players[0] = new Player("Player 1", true, m_Assets);
-		m_Players[1] = new Player("AI", false, m_Assets);
+		m_Players[0] = new Player("Player 1", true, m_Assets, this);
+		m_Players[1] = new Player("AI", false, m_Assets, this);
+		m_CurrentPlayer = m_Players[0];
 		fillAI();
 	}
 	public void fillAI()
@@ -118,5 +136,24 @@ public class Game
 		m_Players[1].setNextShip();
 		m_Players[1].updateBoard(ship, 6,6);
 		ship = m_Players[1].getNextShip();
+	}
+	public void nextTurn()
+	{
+		if(m_CurrentPlayerIndex == m_Players.length -1)
+		{
+			m_CurrentPlayer = m_Players[0];
+			m_CurrentPlayerIndex = 0;
+		}else
+		{
+			m_CurrentPlayer = m_Players[++m_CurrentPlayerIndex];
+		}
+	}
+	public void fire()
+	{
+		System.out.println(m_CurrentPlayer.getNumOfSelectedTargets() + " Targets: Name: " + m_CurrentPlayer.getName());
+	}
+	public void PlayerSelectedTarget()
+	{
+		
 	}
 }

@@ -224,7 +224,7 @@ public class SetUpBoardWindow
 							if(m_CurrentPlayer.allShipsSet())
 							{
 								// DOUBLE CHECK IF THEY ARE READY...
-								GameWindow newGame = new GameWindow(m_CurrentGame,m_Assets,m_SetUpBoard_F);
+								m_CurrentGame.startGame(m_SetUpBoard_F);
 								m_OldWindow_F.dispose();
 								// DELETE MEMU BUTTONS AND THINGS...
 							}

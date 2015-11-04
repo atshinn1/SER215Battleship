@@ -35,7 +35,7 @@ public class LoadAssets
 		m_BoardBlank = loadGameImage("GameBoardBlank.png",576, 648);
 		m_Instructions = loadGameImage("Instructions.png", ScreenWidth, 100);
 		m_MenuBackground = loadGameImage("MenuBG.jpg", ScreenWidth, ScreenHeight);
-		m_GameBackground = loadGameImage("GameBG2.png", ScreenWidth, ScreenHeight);
+		m_GameBackground = loadGameImage("GameBG5.jpg", ScreenWidth, ScreenHeight);
 		
 		m_HitMarker = loadGameImage("HitMarker.png",m_Board.getIconWidth()/16,  m_Board.getIconHeight()/18);
 		m_Target = loadGameImage("Target.png",m_Board.getIconWidth()/16,  m_Board.getIconHeight()/18);
