@@ -16,10 +16,10 @@ public class GameServer{
 	private Socket socket1;
 	
 	//inputstream from the client
-	private DataInputStream inFromClient;
+	private ObjectInputStream inFromClient;
 
 	//output stream to the client
-	private DataOutputStream outToClient;
+	private ObjectOutputStream outToClient;
 
 	//current game object
 	private Game currentGame;
@@ -30,6 +30,7 @@ public class GameServer{
 	//giving it an initial value for now. Same for difficulty
 	private int numberOfPlayers=2,difficulty=2;
 
+	private Location currentMove;
 
 
 	public static void main(String[] args){
@@ -45,9 +46,11 @@ public class GameServer{
 			//wait for connection
 			socket1=sSocket.accept();
 
+			System.out.println("Connection established");
+
 			//instantiate datastreams
-			inFromClient=new DataInputStream(socket1.getInputStream());
-			outToClient=new DataOutputStream(socket1.getOutputStream());
+			inFromClient=new ObjectInputStream(socket1.getInputStream());
+			outToClient=new ObjectOutputStream(socket1.getOutputStream());
 
 			//initialize loadAssets
 			gameAssets=new LoadAssets();
@@ -56,13 +59,27 @@ public class GameServer{
 			currentGame=new Game(numberOfPlayers,difficulty,gameAssets);
 
 			while(true){
-				outToClient.writeChars(currentGame.getPlayer("Player 1").toString() );
+				currentMove=(Location)inFromClient.readObject();
+
+				System.out.println(currentMove.x() + " " + currentMove.y());
+
+				currentMove.setMessage("Cooridnates received");
+
+				outToClient.writeObject(currentMove);
+
+				System.out.println("Message sent");
+				
+
+
 			}
 
 
 
 		}catch(IOException io){
 			System.err.println(io);
+		}
+		catch(ClassNotFoundException c){
+			System.err.println(c);
 		}
 	}
 	

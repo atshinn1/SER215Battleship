@@ -9,11 +9,13 @@ import java.io.*;
 import java.util.*;
 
 
+
 public class GameClient{
 	
 	//iostreams
-	private DataInputStream fromServer;
-	private DataOutputStream toServer;
+	private ObjectInputStream fromServer;
+	private ObjectOutputStream toServer;
+	private BufferedReader reader;
 
 	private Socket socket;
 
@@ -23,7 +25,12 @@ public class GameClient{
 	//The port that the server is on
 	private int port=8000;
 
+	private Location currentMove;
+
+	private Scanner input=new Scanner(System.in);
+
 	public GameClient(){
+
 
 		try{
 			
@@ -31,14 +38,30 @@ public class GameClient{
 			socket=new Socket(localHost,port);
 
 			//connect iostreams
-			fromServer=new DataInputStream(socket.getInputStream());
-			toServer=new DataOutputStream(socket.getOutputStream());
+			fromServer=new ObjectInputStream(socket.getInputStream());
+			toServer=new ObjectOutputStream(socket.getOutputStream());
 
+			System.out.println("Connection established\n");
+
+			while(true){
+				System.out.print("Enter an x coordinate: ");
+				int x=input.nextInt();
+
+				System.out.print("\nEnter a y coordinate: ");
+				int y=input.nextInt();
+
+				currentMove=new Location(x,y);
+
+				toServer.writeObject(currentMove);
+			}
+			
 
 
 		}catch(IOException io){
 			System.err.println(io);
 		}
+
+
 	}
 
 	//again this main is just for testing purposes. will be removed eventually
