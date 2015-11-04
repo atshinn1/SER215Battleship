@@ -70,11 +70,19 @@ public class Board
 	}
 	public JPanel getBoard()
 	{
+		for(int i = 0; i <5; i++)
+		{
+			showShip(m_CurrentPlayer.getShip(i), m_CurrentPlayer.getShip(i).x(), m_CurrentPlayer.getShip(i).y());
+		}
 		return m_GameBoards_P;
 	}
 	
 	public JPanel getBoardHide()
 	{
+		for(int i = 0; i <5; i++)
+		{
+			hideShip(m_CurrentPlayer.getShip(i), m_CurrentPlayer.getShip(i).x(), m_CurrentPlayer.getShip(i).y());
+		}
 		return m_GameBoards_P;// show board with hidden ships, for others to see
 	}
 

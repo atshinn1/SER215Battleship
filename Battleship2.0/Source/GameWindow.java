@@ -54,7 +54,7 @@ public class GameWindow
 		m_ScreenWidth = gd.getDisplayMode().getWidth();
 		m_ScreenHeight = gd.getDisplayMode().getHeight();
 		
-		m_ActionConsole_TA = new JTextArea("", 100, 100);
+		m_ActionConsole_TA = new JTextArea("", 50, 4);
 		m_Chat_TA = new JTextArea("Press 't' to talk", 50, 4);
 		
 		m_Background_L = new JLabel(m_Assets.getImage("GameBG"));
@@ -78,29 +78,34 @@ public class GameWindow
 		m_Game_F.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		m_Background_L.setLayout(new BoxLayout(m_Background_L, BoxLayout.Y_AXIS));
-		m_Footer_L.setLayout(new GridLayout(1,2,(m_ScreenWidth -(m_CurrentPlayer.getBoard().getWidth()*2))/3,0));
+		
+		BorderLayout layout = new BorderLayout();
+		layout.setHgap(650);
+		
+		m_Footer_L.setLayout(layout);
 		m_Header_L.setLayout(new GridLayout(1,2,0,0));
 		
-		FlowLayout layout = new FlowLayout();
-		layout.setHgap((m_ScreenWidth -(m_CurrentPlayer.getBoard().getWidth()*2))/3);//getting a third spacing to center each window
+		FlowLayout layout2 = new FlowLayout();
+		layout2.setHgap((m_ScreenWidth -(m_CurrentPlayer.getBoard().getWidth()*2))/3);//getting a third spacing to center each window
 		
-		m_Boards_P.setLayout(layout);
+		m_Boards_P.setLayout(layout2);
 		
-		m_Footer_L.setPreferredSize(new Dimension(m_ScreenWidth - 200, 100));
-		m_Footer_L.setMaximumSize(new Dimension(m_ScreenWidth - 200, 100));
+		m_Footer_L.setPreferredSize(new Dimension(m_ScreenWidth, 150));
+		m_Footer_L.setMaximumSize(new Dimension(m_ScreenWidth, 150));
+		m_Footer_L.setMinimumSize(new Dimension(m_ScreenWidth, 150));
 		
 		m_Header_L.setPreferredSize(new Dimension(m_ScreenWidth, 100));
 		m_Header_L.setMaximumSize(new Dimension(m_ScreenWidth, 100));
 		
-		m_ActionConsole_TA.setPreferredSize(new Dimension(m_ScreenWidth/4, 100));
-		m_ActionConsole_TA.setMaximumSize(new Dimension(m_ScreenWidth/4, 100));
+		m_ActionConsole_TA.setPreferredSize(new Dimension(200, 100));
+		m_ActionConsole_TA.setMaximumSize(new Dimension(200, 100));
 		m_ActionConsole_TA.setEditable(false);
 		m_ActionConsole_TA.setAlignmentX(Component.CENTER_ALIGNMENT);
 		m_ActionConsole_TA.setBackground(new Color(4, 9, 15));
 		m_ActionConsole_TA.setForeground(Color.WHITE);
 		
-		m_Chat_TA.setPreferredSize(new Dimension(m_ScreenWidth/4, 100));
-		m_Chat_TA.setMaximumSize(new Dimension(m_ScreenWidth/4, 100));
+		m_Chat_TA.setPreferredSize(new Dimension(200, 100));
+		m_Chat_TA.setMaximumSize(new Dimension(200, 100));
 		m_Chat_TA.setEditable(false);
 		m_Chat_TA.setAlignmentX(Component.CENTER_ALIGNMENT);
 		m_Chat_TA.setBackground(new Color(4, 9, 15));
@@ -133,7 +138,7 @@ public class GameWindow
 		m_Background_L.setForeground(Color.WHITE);
 		
 		JPanel board = m_CurrentPlayer.getBoard();
-		JPanel board2 = m_CurrentGame.getPlayer("AI").getBoard();
+		JPanel board2 = m_CurrentGame.getPlayer("AI").getBoardHide();
 	
 		m_Boards_P.setAlignmentX(Component.CENTER_ALIGNMENT);
 		m_Footer_L.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -148,13 +153,13 @@ public class GameWindow
 		m_Header_L.add(updatePlayerStats(m_CurrentGame.getPlayer("AI"),m_OtherPlayerStats_L));
 		
 		//m_Footer_L.add(label);
-		m_Footer_L.add(m_Chat_TA);
+		m_Footer_L.add(m_Chat_TA, BorderLayout.WEST);
 		
 		label = new JLabel("ACTION CONSOLE");
 		label.setForeground(Color.WHITE);
 		
 		//m_Footer_L.add(label);
-		m_Footer_L.add(m_ActionConsole_TA);
+		m_Footer_L.add(m_ActionConsole_TA,BorderLayout.CENTER);
 		
 		m_Background_L.add(m_Header_L);
 		m_Background_L.add(new JLabel("\n"));

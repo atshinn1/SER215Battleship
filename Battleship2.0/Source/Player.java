@@ -47,6 +47,11 @@ public class Player
 		return m_Board.getBoard();
 	}
 	
+	public JPanel getBoardHide()
+	{
+		return m_Board.getBoardHide();
+	}
+	
 	public String getName()
 	{
 		return m_Name;
