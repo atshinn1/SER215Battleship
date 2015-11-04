@@ -27,13 +27,12 @@ public class GameWindow
 	private Player m_CurrentPlayer;
 	private LoadAssets m_Assets;
 	
-    public GameWindow(Game game, LoadAssets assets, JFrame window)// constructer
+    public GameWindow(Game game, LoadAssets assets, JFrame oldWindow)// constructer
     {
 		m_CurrentGame = game;
 		m_CurrentPlayer = game.getPlayer("Player 1");
 		
-		m_OldWindow_F = window;
-		
+		m_OldWindow_F = oldWindow;
 		m_Assets = assets;
 		
 		createComponents();

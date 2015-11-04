@@ -20,6 +20,7 @@ public class Board
 	private JPanel m_GameBoards_P;
 	private	JLabel m_GameBoard_X_L[], m_GameBoard_Y_L[], m_GameBoardTargets_L[];
 	private int m_ScreenHeight, m_ScreenWidth;
+	private Game m_Game;
 	private LoadAssets m_Assets;
 	private Player m_CurrentPlayer;
 	private Cursor m_CrossHair_C;
@@ -29,13 +30,14 @@ public class Board
 	private final int m_NUM_OF_COL, m_NUM_OF_ROWS;
 	private boolean m_HasShip[][];
 	
-	Board(LoadAssets assets, Player currentPlayer)
+	Board(LoadAssets assets, Player currentPlayer, Game game)
 	{
 		/*Toolkit toolkit = Toolkit.getDefaultToolkit();
 		Cursor m_CrossHair_C = toolkit.createCustomCursor(m_Assets.getImage("BattleShip_Y", 1) , new Point(20, 
            20), "img");*/
 		m_NUM_OF_COL = 16;
 		m_NUM_OF_ROWS = 18;
+		m_Game = game;
 		m_Assets = assets;
 		m_CurrentPlayer = currentPlayer;
 		m_ShipCount = 0;
@@ -85,7 +87,6 @@ public class Board
 		}
 		return m_GameBoards_P;// show board with hidden ships, for others to see
 	}
-
 	
 	private void createBoards()
 	{
@@ -164,7 +165,7 @@ public class Board
 			    tmp2.setPreferredSize(new Dimension(m_boardWidth/m_NUM_OF_COL, m_boardHight/m_NUM_OF_ROWS));
 				tmp2.setMinimumSize(new Dimension(m_boardWidth/m_NUM_OF_COL, m_boardHight/m_NUM_OF_ROWS));
 				tmp2.setForeground(Color.RED);
-				tmp2.addMouseListener(new MouseAction(x, y));
+				tmp2.addMouseListener(new BoardMouseAction(x ,y, m_Game,m_GameBoardTargets_L, m_Assets));
 				m_GameBoardTargets_L[x].add(tmp2);
 			}
 			m_GameBoard_Y_P.add(m_GameBoard_Y_L[x]);
@@ -172,39 +173,6 @@ public class Board
 		}
 	}
 	
-	class MouseAction extends MouseAdapter
-	{
-		private int m_x;
-		private int m_y;
-		MouseAction(int x , int y)
-		{
-			m_x = x;
-			m_y = y;
-		}
-		@Override
-		public void mouseEntered(java.awt.event.MouseEvent evt) 
-		{
-			if(m_CurrentPlayer.allShipsSet())
-			m_GameBoardTargets_L[m_x].getComponent(m_y).setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
-		}
-
-		@Override
-		public void mouseExited(java.awt.event.MouseEvent evt) 
-		{
-			//if(m_ShipCount > 5)
-		}
-		@Override
-		public void mouseClicked(java.awt.event.MouseEvent evt)
-		{
-			System.out.println("here");
-			//((JLabel) m_GameBoardTargets_L[m_x].getComponent(m_y)).setIcon(m_Assets.getImage("HitMarker"));
-		}
-		@Override
-		public void mousePressed(java.awt.event.MouseEvent evt)
-		{
-			((JLabel) m_GameBoardTargets_L[m_x].getComponent(m_y)).setIcon(m_Assets.getImage("Target"));
-		}
-	}
 	public void addNextShip(Ship ship)
 	{
 		int x = 1; int y = 1;

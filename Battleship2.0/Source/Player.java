@@ -14,7 +14,9 @@ public class Player
 	private int m_Losses;
 	private LoadAssets m_Assets;
 	private Board m_Board;
+	private int m_NumOfSelectedTargets;//thats a long name...
 	private int m_ShipsPlaced;
+	private Game m_Game;
 	public Ship m_AirCarr;
 	public Ship m_Battleship;
 	public Ship m_Sub;
@@ -26,7 +28,7 @@ public class Player
 	{
 		
 	}
-	Player(String name, boolean type, LoadAssets assets)
+	Player(String name, boolean type, LoadAssets assets, Game game)
 	{
 		m_Assets = assets;
 		m_Name = name;
@@ -34,12 +36,14 @@ public class Player
 		m_Losses = 0;
 		m_Wins = 0;
 		m_ShipsPlaced = 0;
+		m_NumOfSelectedTargets = 0;
+		m_Game = game;
 		m_AirCarr = new Ship("AircraftCarrier", Ship.CARRIER_LENGTH, m_Assets);
 		m_Battleship = new Ship("Battleship", Ship.BATTLESHIP_LENGTH, m_Assets);
 		m_Sub = new Ship("Submarine", Ship.SUBMARINE_LENGTH, m_Assets);
 		m_Cruiser = new Ship("Cruiser", Ship.CRUISER_LENGTH, m_Assets);
 		m_Destoyer = new Ship("Destroyer", Ship.DESTROYER_LENGTH, m_Assets);
-		m_Board = new Board(m_Assets, this);
+		m_Board = new Board(m_Assets, this, m_Game);
 	}
 	
 	public JPanel getBoard()
@@ -51,7 +55,10 @@ public class Player
 	{
 		return m_Board.getBoardHide();
 	}
-	
+	public int getNumOfSelectedTargets()
+	{
+		return m_NumOfSelectedTargets;
+	}
 	public String getName()
 	{
 		return m_Name;
@@ -79,6 +86,10 @@ public class Player
 		m_Sub.reset();
 		m_Cruiser.reset();
 		m_Destoyer.reset();
+	}
+	public void incNumOfSelTargets()
+	{
+		m_NumOfSelectedTargets++;
 	}
 	
     /**getShip
