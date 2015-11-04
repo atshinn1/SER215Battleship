@@ -21,18 +21,21 @@ public class BoardMouseAction extends MouseAdapter
 	private JLabel m_GameBoardTargets_L[];
 	private Game m_Game;
 	private LoadAssets m_Assets;
-	BoardMouseAction(int x , int y, Game game, JLabel[] gameBoardTargets_L, LoadAssets assets)
+	private String m_CurrentPlayersName;
+	
+	BoardMouseAction(int x , int y, Game game, JLabel[] gameBoardTargets_L, LoadAssets assets, String name)
 	{
 		m_x = x;
 		m_y = y;
 		m_Game = game;
 		m_GameBoardTargets_L = gameBoardTargets_L;
 		m_Assets = assets;
+		m_CurrentPlayersName = name;
 	}
 	@Override
 	public void mouseEntered(java.awt.event.MouseEvent evt) 
 	{
-		if(m_Game.getCurrentPlayer().allShipsSet())
+		if(m_Game.getCurrentPlayer().allShipsSet() && (m_CurrentPlayersName.compareTo(m_Game.getCurrentPlayer().getName()) != 0))
 		m_GameBoardTargets_L[m_x].getComponent(m_y).setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
 	}
 
@@ -49,7 +52,7 @@ public class BoardMouseAction extends MouseAdapter
 	@Override
 	public void mousePressed(java.awt.event.MouseEvent evt)
 	{
-		if(m_Game.getCurrentPlayer().allShipsSet())
+		if(m_Game.getCurrentPlayer().allShipsSet() && (m_CurrentPlayersName.compareTo(m_Game.getCurrentPlayer().getName()) != 0))
 		{
 			((JLabel) m_GameBoardTargets_L[m_x].getComponent(m_y)).setIcon(m_Assets.getImage("Target"));
 			if(m_Game.getCurrentPlayer().getNumOfSelectedTargets() == 4)

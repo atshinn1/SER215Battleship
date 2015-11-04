@@ -165,7 +165,7 @@ public class Board
 			    tmp2.setPreferredSize(new Dimension(m_boardWidth/m_NUM_OF_COL, m_boardHight/m_NUM_OF_ROWS));
 				tmp2.setMinimumSize(new Dimension(m_boardWidth/m_NUM_OF_COL, m_boardHight/m_NUM_OF_ROWS));
 				tmp2.setForeground(Color.RED);
-				tmp2.addMouseListener(new BoardMouseAction(x ,y, m_Game,m_GameBoardTargets_L, m_Assets));
+				tmp2.addMouseListener(new BoardMouseAction(x ,y, m_Game,m_GameBoardTargets_L, m_Assets, m_CurrentPlayer.getName()));
 				m_GameBoardTargets_L[x].add(tmp2);
 			}
 			m_GameBoard_Y_P.add(m_GameBoard_Y_L[x]);

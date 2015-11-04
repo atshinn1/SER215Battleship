@@ -58,9 +58,6 @@ public class GameClient{
 
 				System.out.println(currentMove.getMessage());
 			}
-			
-
-
 		}catch(IOException io){
 			System.err.println(io);
 		}catch(UnknownHostException h){
