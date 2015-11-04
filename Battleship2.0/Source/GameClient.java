@@ -20,7 +20,7 @@ public class GameClient{
 	private Socket socket;
 
 	//this is the InetAddress address that represents my computer
-	private String localHost="10.143.233.200";
+	private String localHost="10.143.235.91";
 
 	//The port that the server is on
 	private int port=8000;
@@ -53,12 +53,18 @@ public class GameClient{
 				currentMove=new Location(x,y);
 
 				toServer.writeObject(currentMove);
+
+				currentMove=(Location) fromServer.readObject();
+
+				System.out.println(currentMove.getMessage());
 			}
 			
 
 
 		}catch(IOException io){
 			System.err.println(io);
+		}catch(UnknownHostException h){
+			System.err.println(h);
 		}
 
 

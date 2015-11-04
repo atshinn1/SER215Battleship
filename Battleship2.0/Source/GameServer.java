@@ -49,16 +49,24 @@ public class GameServer{
 			System.out.println("Connection established");
 
 			//instantiate datastreams
-			inFromClient=new ObjectInputStream(socket1.getInputStream());
 			outToClient=new ObjectOutputStream(socket1.getOutputStream());
+			
+			System.out.println("ostream good");
 
+			inFromClient=new ObjectInputStream(socket1.getInputStream());
+
+			System.out.println("istream good");
 			//initialize loadAssets
 			gameAssets=new LoadAssets();
 
 			//initialize game object
 			currentGame=new Game(numberOfPlayers,difficulty,gameAssets);
+			/*currentMove=new Location();
+			currentMove.setMessage("Did you get it?");*/
 
 			while(true){
+				//outToClient.writeObject(currentMove);
+
 				currentMove=(Location)inFromClient.readObject();
 
 				System.out.println(currentMove.x() + " " + currentMove.y());
