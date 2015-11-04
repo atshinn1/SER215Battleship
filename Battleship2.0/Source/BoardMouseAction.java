@@ -18,7 +18,6 @@ public class BoardMouseAction extends MouseAdapter
 {
 	private int m_x;
 	private int m_y;
-	private Player m_CurrentPlayer;
 	private JLabel m_GameBoardTargets_L[];
 	private Game m_Game;
 	private LoadAssets m_Assets;
@@ -50,14 +49,20 @@ public class BoardMouseAction extends MouseAdapter
 	@Override
 	public void mousePressed(java.awt.event.MouseEvent evt)
 	{
-		((JLabel) m_GameBoardTargets_L[m_x].getComponent(m_y)).setIcon(m_Assets.getImage("Target"));
-		if(m_Game.getCurrentPlayer().getNumOfSelectedTargets() == 5)
+		if(m_Game.getCurrentPlayer().allShipsSet())
 		{
-			m_Game.fire();
-			m_Game.nextTurn();
-		}else
-		{
-			m_CurrentPlayer.incNumOfSelTargets();
+			((JLabel) m_GameBoardTargets_L[m_x].getComponent(m_y)).setIcon(m_Assets.getImage("Target"));
+			if(m_Game.getCurrentPlayer().getNumOfSelectedTargets() == 4)
+			{
+				m_Game.getCurrentPlayer().incNumOfSelTargets();
+				m_Game.PlayerSelectedTarget(m_x,m_y);
+				m_Game.fire();
+				m_Game.nextTurn();
+			}else
+			{
+				m_Game.getCurrentPlayer().incNumOfSelTargets();
+				m_Game.PlayerSelectedTarget(m_x,m_y);
+			}
 		}
 	}
 }
