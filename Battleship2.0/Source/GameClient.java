@@ -36,9 +36,10 @@ public class GameClient{
 			
 			//looks for the server with InetAddress and port.
 			socket=new Socket(localHost,port);
-
+			System.out.println("Here");
 			//connect iostreams
 			fromServer=new ObjectInputStream(socket.getInputStream());
+			System.out.println("Heres");
 			toServer=new ObjectOutputStream(socket.getOutputStream());
 
 			System.out.println("Connection established\n");

@@ -362,6 +362,10 @@ public class Board
 		}
 		return false;
 	}
+	public boolean hasShip(int x, int y)
+	{
+		return 
+	}
 	public void addToTaken(int x, int y, Ship ship)
 	{
 		m_HasShip[x][y] = true;

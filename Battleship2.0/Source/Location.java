@@ -1,14 +1,22 @@
-public class Location
+
+
+import java.io.Serializable;
+
+public class Location implements Serializable
 {
 	private int m_x;
 	private int m_y;
 	private String m_message;
+	
+	transient private Thread myThread;
 	
 	Location()
 	{
 		m_x = 1;
 		m_y = 1;
 		m_message="";
+		
+		myThread = new Thread();
 	}
 	
 	Location(int x, int y)
@@ -44,5 +52,11 @@ public class Location
 
 	public void setMessage(String message){
 		m_message=message;
+	}
+	
+	@Override
+	public String toString()
+	{
+		return "Location [x = " + m_x + " y = " + m_y + "]";
 	}
 }
