@@ -152,7 +152,8 @@ public class Game
 	}
 	public void fire()
 	{
-		System.out.println(m_CurrentPlayer.getNumOfSelectedTargets() + " Targets: Name: " + m_CurrentPlayer.getName());
+		//System.out.println(m_CurrentPlayer.getNumOfSelectedTargets() + " Targets: Name: " + m_CurrentPlayer.getName());
+		checkIfHit();
 	}
 	public void PlayerSelectedTarget(int x,int y)
 	{
@@ -160,5 +161,16 @@ public class Game
 		m_GameWindow.updateActionConsole(m_CurrentPlayer.getName() + ":  Selected Target...\n\t" +
 										 m_CurrentPlayer.getName() + ": Has " + (5 - m_CurrentPlayer.getNumOfSelectedTargets()) + " Left");
 		System.out.println(m_CurrentPlayer.getNumOfSelectedTargets() + " num of targets");
+	}
+	public void checkIfHit()
+	{
+		for(int i = 0; i < 5; i++)
+		{
+			
+		}
+			if()
+			{
+				
+			}
 	}
 }
